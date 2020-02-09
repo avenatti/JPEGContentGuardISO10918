@@ -4,6 +4,7 @@
 *.la
 *.swp
 *.orig
+*.bak
 cscope*
 jpeg-6b/cjpeg
 jpeg-6b/djpeg
@@ -18,3 +19,11 @@ jpeg-6b/config.status
 jpeg-6b/knr
 jpeg-6b/.liobs
 jpeg-6b/_libs
+guard/CMakeFiles/*
+guard/Makefile
+guard/build/*
+guard/cmake_install.cmake
+guard/CMakeCache.txt
+guard/CTestTestfile.cmake
+guard/runner.cpp
+
