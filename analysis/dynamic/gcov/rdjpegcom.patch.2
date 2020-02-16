@@ -1,0 +1,11 @@
+--- rdjpegcom/Makefile.orig	2020-02-16 12:43:41.569176509 -0800
++++ rdjpegcom/Makefile	2020-02-16 12:44:24.677789011 -0800
+@@ -33,7 +33,7 @@
+ LDFLAGS= 
+ 
+ # To link any special libraries, add the necessary -l commands here.
+-LDLIBS= 
++LDLIBS= -lgcov --coverage
+ 
+ # If using GNU libtool, LIBTOOL references it; if not, LIBTOOL is empty.
+ LIBTOOL = 
