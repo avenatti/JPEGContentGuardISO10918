@@ -12,7 +12,7 @@ import os
 # Cleans the eviornment (directory) for a fresh run.
 def Clean ():
    print "---> Cleaning directory ..."
-   cmd = ["rm", "-rf", "djpeg", "rdjpegcom"]
+   cmd = ["rm", "-rf", "djpeg", "rdjpegcom", "djpeg_analysis", "rdjpegcom_analysis"]
    subprocess.call (cmd)
    print "---> Cleaned."
 
@@ -86,6 +86,70 @@ def BuildExecutables ():
    ExecuteSubDirCommand ("rdjpegcom", "make")  
 
 
+# Runs the djpeg test.
+def RunDjpegTest ():
+   print "---> Executing the djpeg test ..."
+
+   # Get the script execution directory.
+   script_dir = os.getcwd () 
+
+   # Switch directories.
+   djpeg_dir = os.path.join (script_dir, "djpeg") 
+   os.chdir (djpeg_dir)
+
+   # Build the execution command.
+   cmd = ["./djpeg", "-colors", "64", "-gif", "-scale", "1/1", "-outfile", "junk.gif", "testprog.jpg"]
+   subprocess.call (cmd)
+   
+   # Change back to the script directory.
+   os.chdir (script_dir)
+
+   print "---> Finished executing the djpeg test ..."
+
+
+# Runs the djpeg test.
+def RunRdjpegcomTest ():
+   pass
+
+
+# Generates analysis information for a subdirectory for a given run.
+# @param[in] sub_dir String of the subdirectory to create analysis data for.
+def GenerateSubDirAnalysis (sub_dir):
+   print "---> Generating the analysis data for " + sub_dir + "."
+
+   # Get the script execution directory.
+   script_dir = os.getcwd () 
+
+   # Switch directories.
+   new_dir = os.path.join (script_dir, sub_dir) 
+   os.chdir (new_dir)
+
+   # Generate the gcov statistics.
+   for file in os.listdir ("."):
+      if (file.endswith (".c")):
+         cmd = ["gcov", "-a", "-b", file]
+         subprocess.call (cmd)
+
+   # Generate the lcov analysis information.
+   cmd = ["lcov", "--capture", "--directory", ".", "--output-file", "lcov.info"]
+   subprocess.call (cmd)
+
+   # Generate the html view of the analysis information.
+   analysis_dir = os.path.join (script_dir, sub_dir + "_analysis")
+   cmd = ["genhtml", "lcov.info", "--output-directory", analysis_dir]
+   subprocess.call (cmd)
+
+   # Change back to the script directory.
+   os.chdir (script_dir)
+
+   print "---> Finished generating analysis data for " + sub_dir + "."
+
+
+# Generates analysis information for a run.
+def GenerateAnalysis ():
+   GenerateSubDirAnalysis ("djpeg")
+
+
 ###############################################################################
 # Script Execution.
 ###############################################################################
@@ -108,7 +172,17 @@ PatchMakeFiles ()
 # 6. Build the executables.
 BuildExecutables ()
 
+# 7. Run the tests on each executable.
+RunDjpegTest ()
+RunRdjpegcomTest ()
 
+# 8. Generate the analysis information.
+GenerateAnalysis ()
+
+# 9. Display the analysis information.
+os.system ("firefox djpeg_analysis/index.html &")
+
+Clean ()
 
 
 

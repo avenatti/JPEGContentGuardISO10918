@@ -11,6 +11,7 @@ doxygen    # Ubuntu:  sudo apt-get install doxygen
 # Scripting deependencies.
 pip        # Ubuntu:  sudo apt install python-pip
 patch      # sudo pip install patch
+lcov       # Ubuntu:  sudo apt-get install lcov
 
 
 # How to build Guard.
