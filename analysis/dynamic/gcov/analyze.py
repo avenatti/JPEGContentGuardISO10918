@@ -12,7 +12,7 @@ import os
 # Cleans the eviornment (directory) for a fresh run.
 def Clean ():
    print "---> Cleaning directory ..."
-   cmd = ["rm", "-rf", "djpeg", "rdjpegcom", "djpeg_analysis", "rdjpegcom_analysis"]
+   cmd = ["rm", "-rf", "djpeg", "rdjpgcom", "djpeg_analysis", "rdjpgcom_analysis"]
    subprocess.call (cmd)
    print "---> Cleaned."
 
@@ -26,7 +26,7 @@ def CopyLibJpegFiles ():
    subprocess.call (cmd)
    cmd = ["cp", "-r", "../../../jpeg-6b", "."]
    subprocess.call (cmd)
-   cmd = ["mv", "jpeg-6b", "rdjpegcom"]
+   cmd = ["mv", "jpeg-6b", "rdjpgcom"]
    subprocess.call (cmd)
    print "---> Copied libjpeg files."
 
@@ -36,7 +36,7 @@ def PatchConfigFiles ():
    print "---> Patching confgure files with gcov settings ..."
    pset = patch.fromfile ("djpeg.patch.1")
    pset.apply ()
-   pset = patch.fromfile ("rdjpegcom.patch.1")
+   pset = patch.fromfile ("rdjpgcom.patch.1")
    pset.apply ()
    print "---> Patched configure files."
 
@@ -46,7 +46,7 @@ def PatchMakeFiles ():
    print "---> Patching Makefiles with gcov settings ..."
    pset = patch.fromfile ("djpeg.patch.2")
    pset.apply ()
-   pset = patch.fromfile ("rdjpegcom.patch.2")
+   pset = patch.fromfile ("rdjpgcom.patch.2")
    pset.apply ()
    print "---> Patched Makefiles."
 
@@ -77,13 +77,13 @@ def ExecuteSubDirCommand (sub_dir, cmd):
 # Executes the configure command to setup the make system.
 def ExecuteConfigure ():
    ExecuteSubDirCommand ("djpeg", "./configure")  
-   ExecuteSubDirCommand ("rdjpegcom", "./configure")  
+   ExecuteSubDirCommand ("rdjpgcom", "./configure")  
 
 
 # Builds the binary executables.
 def BuildExecutables ():
    ExecuteSubDirCommand ("djpeg", "make")  
-   ExecuteSubDirCommand ("rdjpegcom", "make")  
+   ExecuteSubDirCommand ("rdjpgcom", "make")  
 
 
 # Runs the djpeg test.
@@ -104,12 +104,28 @@ def RunDjpegTest ():
    # Change back to the script directory.
    os.chdir (script_dir)
 
-   print "---> Finished executing the djpeg test ..."
+   print "---> Finished executing the djpeg test."
 
 
 # Runs the djpeg test.
 def RunRdjpegcomTest ():
-   pass
+   print "---> Executing the rdjpgcom test ..."
+
+   # Get the script execution directory.
+   script_dir = os.getcwd () 
+
+   # Switch directories.
+   rdjpgcom_dir = os.path.join (script_dir, "rdjpgcom") 
+   os.chdir (rdjpgcom_dir)
+
+   # Build the execution command.
+   cmd = ["./rdjpgcom", "-verbose", "testorig.jpg"]
+   subprocess.call (cmd)
+   
+   # Change back to the script directory.
+   os.chdir (script_dir)
+
+   print "---> Finished executing the rdjpgcom."
 
 
 # Generates analysis information for a subdirectory for a given run.
@@ -148,6 +164,7 @@ def GenerateSubDirAnalysis (sub_dir):
 # Generates analysis information for a run.
 def GenerateAnalysis ():
    GenerateSubDirAnalysis ("djpeg")
+   GenerateSubDirAnalysis ("rdjpgcom")
 
 
 ###############################################################################
@@ -181,8 +198,8 @@ GenerateAnalysis ()
 
 # 9. Display the analysis information.
 os.system ("firefox djpeg_analysis/index.html &")
+os.system ("firefox rdjpgcom_analysis/index.html &")
 
-Clean ()
 
 
 
