@@ -1,0 +1,11 @@
+--- djpeg/configure.orig	2020-02-16 11:07:32.495525026 -0800
++++ djpeg/configure	2020-02-16 11:08:10.280049119 -0800
+@@ -670,7 +670,7 @@
+ 
+ if test $ac_cv_prog_gcc = yes; then
+   GCC=yes
+-  test "${CFLAGS+set}" = set || CFLAGS="-O2"
++  test "${CFLAGS+set}" = set || CFLAGS="-O0 -fprofile-arcs -ftest-coverage"
+ else
+   GCC=
+   test "${CFLAGS+set}" = set || CFLAGS="-O"

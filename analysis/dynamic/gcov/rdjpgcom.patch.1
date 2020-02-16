@@ -1,0 +1,11 @@
+--- rdjpgcom/configure.orig	2020-02-16 12:35:12.017899757 -0800
++++ rdjpgcom/configure	2020-02-16 12:37:49.428156975 -0800
+@@ -670,7 +670,7 @@
+ 
+ if test $ac_cv_prog_gcc = yes; then
+   GCC=yes
+-  test "${CFLAGS+set}" = set || CFLAGS="-O2"
++  test "${CFLAGS+set}" = set || CFLAGS="-O0 -fprofile-arcs -ftest-coverage"
+ else
+   GCC=
+   test "${CFLAGS+set}" = set || CFLAGS="-O"
