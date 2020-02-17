@@ -13,6 +13,7 @@ pip        # Ubuntu:  sudo apt install python-pip
 patch      # sudo pip install patch
 Pygments   # sudo pip install Pygments
 lcov       # Ubuntu:  sudo apt-get install lcov
+cppcheck   # Ubuntu:  sudo apt-get install cppcheck
 
 
 # How to build Guard.
