@@ -1,7 +1,8 @@
 #!/usr/bin/env python2.7
 
 
-# This script ...
+# This script performs gcov dynamic analysis analysis on the djpeg and rdjpgcom 
+# executables in libjpeg.
 
 
 import subprocess
