@@ -13,12 +13,12 @@ Running:
 ----------
 To run the script:
    cd <analysis/dynamic/gcov directory>
-   ./analysis.py
+   ./analyze.py
 
 
 General Notes:
 ----------
-The analysis.py script must be ran within the analysis/dynamic/gcov directory.
+The analyze.py script must be ran within the analysis/dynamic/gcov directory.
 
 Patch were created using command:  diff -Naur <new-file> <old-file>
 

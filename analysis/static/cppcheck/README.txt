@@ -16,11 +16,11 @@ Running:
 ----------
 To run the script:
    cd <analysis/static/cppcheck directory>
-   ./analysis.py
+   ./analyze.py
 
 
 General Notes:
 ----------
-The analysis.py script must be ran within the analysis/static/cppcheck directory.
+The analyze.py script must be ran within the analysis/static/cppcheck directory.
 
 
