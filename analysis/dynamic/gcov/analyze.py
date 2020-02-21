@@ -8,6 +8,7 @@
 import subprocess
 import patch
 import os
+import time
 
 
 # Cleans the eviornment (directory) for a fresh run.
@@ -168,39 +169,48 @@ def GenerateAnalysis ():
    GenerateSubDirAnalysis ("rdjpgcom")
 
 
+# Executes a step of sequences to produce the output data.
+def Execute ():
+
+   # 1. Clean out an remnants of previous runs.
+   Clean ()
+
+   # 2. Copy over a fresh copy of the libjpeg source code. 
+   CopyLibJpegFiles ()
+
+   # 3. Patch the configure files.
+   PatchConfigFiles ()
+
+   # 4. Execute the configure command.
+   ExecuteConfigure ()
+
+   # 5. Patch the makefiles.
+   PatchMakeFiles ()
+
+   # 6. Build the executables.
+   BuildExecutables ()
+
+   # 7. Run the tests on each executable.
+   RunDjpegTest ()
+   RunRdjpegcomTest ()
+
+   # 8. Generate the analysis information.
+   GenerateAnalysis ()
+
+   # 9. Display the analysis information.
+   os.system ("firefox -new-tab djpeg_analysis/index.html &")
+   time.sleep (1)
+   os.system ("firefox -new-tab rdjpgcom_analysis/index.html &")
+
+
 ###############################################################################
 # Script Execution.
 ###############################################################################
 
-# 1. Clean out an remnants of previous runs.
-Clean ()
+if __name__ == '__main__':
 
-# 2. Copy over a fresh copy of the libjpeg source code. 
-CopyLibJpegFiles ()
-
-# 3. Patch the configure files.
-PatchConfigFiles ()
-
-# 4. Execute the configure command.
-ExecuteConfigure ()
-
-# 5. Patch the makefiles.
-PatchMakeFiles ()
-
-# 6. Build the executables.
-BuildExecutables ()
-
-# 7. Run the tests on each executable.
-RunDjpegTest ()
-RunRdjpegcomTest ()
-
-# 8. Generate the analysis information.
-GenerateAnalysis ()
-
-# 9. Display the analysis information.
-os.system ("firefox djpeg_analysis/index.html &")
-os.system ("firefox rdjpgcom_analysis/index.html &")
-
+   # Execute.
+   Execute ()
 
 
 

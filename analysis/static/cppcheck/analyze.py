@@ -57,22 +57,31 @@ def Analyze ():
    print "---> Finished statically analyzing the code."
 
 
+# Executes a step of sequences to produce the output data.
+def Execute ():
+
+   # 1. Clean out an remnants of previous runs.
+   Clean ()
+
+   # 2. Copy over a fresh copy of the libjpeg source code. 
+   CopyLibJpegFiles ()
+
+   # 3. Execute the static analysis.
+   Analyze ()
+
+   # 4. Display the analysis information.
+   os.system ("firefox -new-tab code_analysis/index.html &")
+
 
 ###############################################################################
 # Script Execution.
 ###############################################################################
 
-# 1. Clean out an remnants of previous runs.
-Clean ()
+if __name__ == '__main__':
 
-# 2. Copy over a fresh copy of the libjpeg source code. 
-CopyLibJpegFiles ()
+   # Execute.
+   Execute ()
 
-# 3. Execute the static analysis.
-Analyze ()
-
-# 4. Display the analysis information.
-os.system ("firefox code_analysis/index.html &")
 
 
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+    <error file="code/ckconfig.c" line="171" id="uselessAssignmentPtrArg" severity="style" msg="Assignment of function parameter has no effect outside the function. Did you forget dereferencing it?"/>
+    <error file="code/ckconfig.c" line="268" id="shiftNegative" severity="error" msg="Shifting a negative value is undefined behaviour"/>
+    <error file="code/djpeg.c" line="329" id="invalidScanfArgType_int" severity="style" msg="%d in format string (no. 1) requires &apos;int *&apos; but the argument type is &apos;unsigned int *&apos;."/>
+    <error file="code/djpeg.c" line="329" id="invalidScanfArgType_int" severity="style" msg="%d in format string (no. 2) requires &apos;int *&apos; but the argument type is &apos;unsigned int *&apos;."/>
+    <error file="code/djpeg.c" line="573" id="nullPointer" severity="error" msg="Possible null pointer dereference: dest_mgr"/>
+    <error file="code/djpeg.c" line="579" id="nullPointer" severity="error" msg="Possible null pointer dereference: dest_mgr"/>
+    <error file="code/djpeg.c" line="583" id="nullPointer" severity="error" msg="Possible null pointer dereference: dest_mgr"/>
+    <error file="code/djpeg.c" line="584" id="nullPointer" severity="error" msg="Possible null pointer dereference: dest_mgr"/>
+    <error file="code/djpeg.c" line="585" id="nullPointer" severity="error" msg="Possible null pointer dereference: dest_mgr"/>
+    <error file="code/djpeg.c" line="599" id="nullPointer" severity="error" msg="Possible null pointer dereference: dest_mgr"/>
+    <error file="code/jcdctmgr.c" line="66" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;qtblno&gt;=4&apos; is redundant or the array &apos;cinfo.quant_tbl_ptrs[4]&apos; is accessed at index 4, which is out of bounds."/>
+    <error file="code/jchuff.c" line="132" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;dctbl&gt;=4&apos; is redundant or the array &apos;entropy.dc_count_ptrs[4]&apos; is accessed at index 4, which is out of bounds."/>
+    <error file="code/jchuff.c" line="134" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;actbl&gt;=4&apos; is redundant or the array &apos;entropy.ac_count_ptrs[4]&apos; is accessed at index 4, which is out of bounds."/>
+    <error file="code/jchuff.c" line="194" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;tblno&gt;=4&apos; is redundant or the array &apos;cinfo.dc_huff_tbl_ptrs[4]&apos; is accessed at index 4, which is out of bounds."/>
+    <error file="code/jchuff.c" line="194" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;tblno&gt;=4&apos; is redundant or the array &apos;cinfo.ac_huff_tbl_ptrs[4]&apos; is accessed at index 4, which is out of bounds."/>
+    <error file="code/jcmarker.c" line="197" id="nullPointerRedundantCheck" severity="style" msg="Either the condition &apos;htbl==0&apos; is redundant or there is possible null pointer dereference: htbl."/>
+    <error file="code/jcphuff.c" line="161" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;tbl&gt;=4&apos; is redundant or the array &apos;entropy.count_ptrs[4]&apos; is accessed at index 4, which is out of bounds."/>
+    <error file="code/jctrans.c" line="117" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;tblno&gt;=4&apos; is redundant or the array &apos;srcinfo.quant_tbl_ptrs[4]&apos; is accessed at index 4, which is out of bounds."/>
+    <error file="code/jdhuff.c" line="454" id="shiftNegative" severity="error" msg="Shifting a negative value is undefined behaviour"/>
+    <error file="code/jdhuff.c" line="455" id="shiftNegative" severity="error" msg="Shifting a negative value is undefined behaviour"/>
+    <error file="code/jdhuff.c" line="456" id="shiftNegative" severity="error" msg="Shifting a negative value is undefined behaviour"/>
+    <error file="code/jdhuff.c" line="457" id="shiftNegative" severity="error" msg="Shifting a negative value is undefined behaviour"/>
+    <error file="code/jdhuff.c" line="165" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;tblno&gt;=4&apos; is redundant or the array &apos;cinfo.dc_huff_tbl_ptrs[4]&apos; is accessed at index 4, which is out of bounds."/>
+    <error file="code/jdhuff.c" line="165" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;tblno&gt;=4&apos; is redundant or the array &apos;cinfo.ac_huff_tbl_ptrs[4]&apos; is accessed at index 4, which is out of bounds."/>
+    <error file="code/jdinput.c" line="233" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;qtblno&gt;=4&apos; is redundant or the array &apos;cinfo.quant_tbl_ptrs[4]&apos; is accessed at index 4, which is out of bounds."/>
+    <error file="code/jdmarker.c" line="509" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;n&gt;=4&apos; is redundant or the array &apos;cinfo.quant_tbl_ptrs[4]&apos; is accessed at index 4, which is out of bounds."/>
+    <error file="code/jdphuff.c" line="214" id="shiftNegative" severity="error" msg="Shifting a negative value is undefined behaviour"/>
+    <error file="code/jdphuff.c" line="215" id="shiftNegative" severity="error" msg="Shifting a negative value is undefined behaviour"/>
+    <error file="code/jdphuff.c" line="216" id="shiftNegative" severity="error" msg="Shifting a negative value is undefined behaviour"/>
+    <error file="code/jdphuff.c" line="217" id="shiftNegative" severity="error" msg="Shifting a negative value is undefined behaviour"/>
+    <error file="code/jdphuff.c" line="496" id="shiftNegative" severity="error" msg="Shifting a negative value is undefined behaviour"/>
+    <error file="code/jmemmgr.c" line="1061" id="nullPointerRedundantCheck" severity="style" msg="Either the condition &apos;mem==0&apos; is redundant or there is possible null pointer dereference: mem."/>
+    <error file="code/jmemmgr.c" line="275" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;pool_id&gt;=2&apos; is redundant or the array &apos;mem.small_list[2]&apos; is accessed at index 2, which is out of bounds."/>
+    <error file="code/jmemmgr.c" line="359" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;pool_id&gt;=2&apos; is redundant or the array &apos;mem.large_list[2]&apos; is accessed at index 2, which is out of bounds."/>
+    <error file="code/jmemmgr.c" line="937" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;pool_id&gt;=2&apos; is redundant or the array &apos;mem.large_list[2]&apos; is accessed at index 2, which is out of bounds."/>
+    <error file="code/jmemmgr.c" line="937" id="arrayIndexOutOfBoundsCond" severity="style" msg="Either the condition &apos;pool_id&gt;=2&apos; is redundant or the array &apos;mem.small_list[2]&apos; is accessed at index 2, which is out of bounds."/>
+    <error file="code/wrjpgcom.c" line="454" id="nullPointerRedundantCheck" severity="style" msg="Either the condition &apos;comment_arg==0&apos; is redundant or there is possible null pointer dereference: comment_arg."/>
+    <error id="toomanyconfigs" severity="style" msg="The checking of the file will be interrupted because there are too many #ifdef configurations. Checking of all #ifdef configurations can be forced by --force command line option or from GUI preferences. However that may increase the checking time. For more details, use --enable=information."/>
+</results>

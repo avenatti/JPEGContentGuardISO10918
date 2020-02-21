@@ -5,6 +5,7 @@
 *.swp
 *.orig
 *.bak
+*.pyc
 jconfig.h
 cscope.files
 cscope.out

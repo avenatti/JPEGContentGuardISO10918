@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Cppcheck - HTML report - libjpeg-static-analysis</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+
+    </style>
+    <script language="javascript">
+      function getStyle(el,styleProp) {
+        if (el.currentStyle)
+          var y = el.currentStyle[styleProp];
+        else if (window.getComputedStyle)
+          var y = document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
+        return y;
+      }
+      function toggle() {
+        var el = this.expandable_content;
+        var mark = this.expandable_marker;
+        if (el.style.display == "block") {
+          el.style.display = "none";
+          mark.innerHTML = "[+]";
+        } else {
+          el.style.display = "block";
+          mark.innerHTML = "[-]";
+        }
+      }
+      function init_expandables() {
+        var elts = document.getElementsByClassName("expandable");
+        for (var i = 0; i < elts.length; i++) {
+          var el = elts[i];
+          var clickable = el.getElementsByTagName("span")[0];
+          var marker = clickable.getElementsByClassName("marker")[0];
+          var content = el.getElementsByClassName("content")[0];
+          var width = clickable.clientWidth - parseInt(getStyle(content, "padding-left")) - parseInt(getStyle(content, "padding-right"));
+          content.style.width = width + "px";
+          clickable.expandable_content = content;
+          clickable.expandable_marker = marker;
+          clickable.onclick = toggle;
+        }
+      }
+    </script>
+  </head>
+  <body onload="init_expandables()">
+      <div id="header">
+        <h1>Cppcheck report - libjpeg-static-analysis:  </h1>
+      </div>
+      <div id="menu_index">
+       <p id="filename"><a href="index.html">Defect summary;</a> </p>
+       <p>
+        38 total<br/><br/>
+        15 arrayIndexOutOfBoundsCond<br/>
+        10 shiftNegative<br/>
+        6 nullPointer<br/>
+        3 nullPointerRedundantCheck<br/>
+        2 invalidScanfArgType_int<br/>
+        1 toomanyconfigs<br/>
+        1 uselessAssignmentPtrArg<br/>
+<br/><br/><a href="stats.html">Statistics</a></p>
+      </div>
+      <div id="content_index">
+       <table>
+       <tr><th>Line</th><th>Id</th><th>Severity</th><th>Message</th></tr>
+       <tr><td colspan='4'><a href='13.html'></a></td></tr>
+       <tr><td><a href='13.html#line-0'>0</a></td><td>toomanyconfigs</td><td>style</td><td >The checking of the file will be interrupted because there are too many #ifdef configurations. Checking of all #ifdef configurations can be forced by --force command line option or from GUI preferences. However that may increase the checking time. For more details, use --enable=information.</td></tr>
+       <tr><td colspan='4'><a href='0.html'>code/ckconfig.c</a></td></tr>
+       <tr><td><a href='0.html#line-171'>171</a></td><td>uselessAssignmentPtrArg</td><td>style</td><td >Assignment of function parameter has no effect outside the function. Did you forget dereferencing it?</td></tr>
+       <tr><td><a href='0.html#line-268'>268</a></td><td>shiftNegative</td><td>error</td><td class="error">Shifting a negative value is undefined behaviour</td></tr>
+       <tr><td colspan='4'><a href='1.html'>code/djpeg.c</a></td></tr>
+       <tr><td><a href='1.html#line-329'>329</a></td><td>invalidScanfArgType_int</td><td>style</td><td >%d in format string (no. 1) requires 'int *' but the argument type is 'unsigned int *'.</td></tr>
+       <tr><td><a href='1.html#line-329'>329</a></td><td>invalidScanfArgType_int</td><td>style</td><td >%d in format string (no. 2) requires 'int *' but the argument type is 'unsigned int *'.</td></tr>
+       <tr><td><a href='1.html#line-573'>573</a></td><td>nullPointer</td><td>error</td><td class="error">Possible null pointer dereference: dest_mgr</td></tr>
+       <tr><td><a href='1.html#line-579'>579</a></td><td>nullPointer</td><td>error</td><td class="error">Possible null pointer dereference: dest_mgr</td></tr>
+       <tr><td><a href='1.html#line-583'>583</a></td><td>nullPointer</td><td>error</td><td class="error">Possible null pointer dereference: dest_mgr</td></tr>
+       <tr><td><a href='1.html#line-584'>584</a></td><td>nullPointer</td><td>error</td><td class="error">Possible null pointer dereference: dest_mgr</td></tr>
+       <tr><td><a href='1.html#line-585'>585</a></td><td>nullPointer</td><td>error</td><td class="error">Possible null pointer dereference: dest_mgr</td></tr>
+       <tr><td><a href='1.html#line-599'>599</a></td><td>nullPointer</td><td>error</td><td class="error">Possible null pointer dereference: dest_mgr</td></tr>
+       <tr><td colspan='4'><a href='2.html'>code/jcdctmgr.c</a></td></tr>
+       <tr><td><a href='2.html#line-66'>66</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'qtblno>=4' is redundant or the array 'cinfo.quant_tbl_ptrs[4]' is accessed at index 4, which is out of bounds.</td></tr>
+       <tr><td colspan='4'><a href='3.html'>code/jchuff.c</a></td></tr>
+       <tr><td><a href='3.html#line-132'>132</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'dctbl>=4' is redundant or the array 'entropy.dc_count_ptrs[4]' is accessed at index 4, which is out of bounds.</td></tr>
+       <tr><td><a href='3.html#line-134'>134</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'actbl>=4' is redundant or the array 'entropy.ac_count_ptrs[4]' is accessed at index 4, which is out of bounds.</td></tr>
+       <tr><td><a href='3.html#line-194'>194</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'tblno>=4' is redundant or the array 'cinfo.dc_huff_tbl_ptrs[4]' is accessed at index 4, which is out of bounds.</td></tr>
+       <tr><td><a href='3.html#line-194'>194</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'tblno>=4' is redundant or the array 'cinfo.ac_huff_tbl_ptrs[4]' is accessed at index 4, which is out of bounds.</td></tr>
+       <tr><td colspan='4'><a href='4.html'>code/jcmarker.c</a></td></tr>
+       <tr><td><a href='4.html#line-197'>197</a></td><td>nullPointerRedundantCheck</td><td>style</td><td >Either the condition 'htbl==0' is redundant or there is possible null pointer dereference: htbl.</td></tr>
+       <tr><td colspan='4'><a href='5.html'>code/jcphuff.c</a></td></tr>
+       <tr><td><a href='5.html#line-161'>161</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'tbl>=4' is redundant or the array 'entropy.count_ptrs[4]' is accessed at index 4, which is out of bounds.</td></tr>
+       <tr><td colspan='4'><a href='6.html'>code/jctrans.c</a></td></tr>
+       <tr><td><a href='6.html#line-117'>117</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'tblno>=4' is redundant or the array 'srcinfo.quant_tbl_ptrs[4]' is accessed at index 4, which is out of bounds.</td></tr>
+       <tr><td colspan='4'><a href='7.html'>code/jdhuff.c</a></td></tr>
+       <tr><td><a href='7.html#line-165'>165</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'tblno>=4' is redundant or the array 'cinfo.dc_huff_tbl_ptrs[4]' is accessed at index 4, which is out of bounds.</td></tr>
+       <tr><td><a href='7.html#line-165'>165</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'tblno>=4' is redundant or the array 'cinfo.ac_huff_tbl_ptrs[4]' is accessed at index 4, which is out of bounds.</td></tr>
+       <tr><td><a href='7.html#line-454'>454</a></td><td>shiftNegative</td><td>error</td><td class="error">Shifting a negative value is undefined behaviour</td></tr>
+       <tr><td><a href='7.html#line-455'>455</a></td><td>shiftNegative</td><td>error</td><td class="error">Shifting a negative value is undefined behaviour</td></tr>
+       <tr><td><a href='7.html#line-456'>456</a></td><td>shiftNegative</td><td>error</td><td class="error">Shifting a negative value is undefined behaviour</td></tr>
+       <tr><td><a href='7.html#line-457'>457</a></td><td>shiftNegative</td><td>error</td><td class="error">Shifting a negative value is undefined behaviour</td></tr>
+       <tr><td colspan='4'><a href='8.html'>code/jdinput.c</a></td></tr>
+       <tr><td><a href='8.html#line-233'>233</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'qtblno>=4' is redundant or the array 'cinfo.quant_tbl_ptrs[4]' is accessed at index 4, which is out of bounds.</td></tr>
+       <tr><td colspan='4'><a href='9.html'>code/jdmarker.c</a></td></tr>
+       <tr><td><a href='9.html#line-509'>509</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'n>=4' is redundant or the array 'cinfo.quant_tbl_ptrs[4]' is accessed at index 4, which is out of bounds.</td></tr>
+       <tr><td colspan='4'><a href='10.html'>code/jdphuff.c</a></td></tr>
+       <tr><td><a href='10.html#line-214'>214</a></td><td>shiftNegative</td><td>error</td><td class="error">Shifting a negative value is undefined behaviour</td></tr>
+       <tr><td><a href='10.html#line-215'>215</a></td><td>shiftNegative</td><td>error</td><td class="error">Shifting a negative value is undefined behaviour</td></tr>
+       <tr><td><a href='10.html#line-216'>216</a></td><td>shiftNegative</td><td>error</td><td class="error">Shifting a negative value is undefined behaviour</td></tr>
+       <tr><td><a href='10.html#line-217'>217</a></td><td>shiftNegative</td><td>error</td><td class="error">Shifting a negative value is undefined behaviour</td></tr>
+       <tr><td><a href='10.html#line-496'>496</a></td><td>shiftNegative</td><td>error</td><td class="error">Shifting a negative value is undefined behaviour</td></tr>
+       <tr><td colspan='4'><a href='11.html'>code/jmemmgr.c</a></td></tr>
+       <tr><td><a href='11.html#line-275'>275</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'pool_id>=2' is redundant or the array 'mem.small_list[2]' is accessed at index 2, which is out of bounds.</td></tr>
+       <tr><td><a href='11.html#line-359'>359</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'pool_id>=2' is redundant or the array 'mem.large_list[2]' is accessed at index 2, which is out of bounds.</td></tr>
+       <tr><td><a href='11.html#line-937'>937</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'pool_id>=2' is redundant or the array 'mem.large_list[2]' is accessed at index 2, which is out of bounds.</td></tr>
+       <tr><td><a href='11.html#line-937'>937</a></td><td>arrayIndexOutOfBoundsCond</td><td>style</td><td >Either the condition 'pool_id>=2' is redundant or the array 'mem.small_list[2]' is accessed at index 2, which is out of bounds.</td></tr>
+       <tr><td><a href='11.html#line-1061'>1061</a></td><td>nullPointerRedundantCheck</td><td>style</td><td >Either the condition 'mem==0' is redundant or there is possible null pointer dereference: mem.</td></tr>
+       <tr><td colspan='4'><a href='12.html'>code/wrjpgcom.c</a></td></tr>
+       <tr><td><a href='12.html#line-454'>454</a></td><td>nullPointerRedundantCheck</td><td>style</td><td >Either the condition 'comment_arg==0' is redundant or there is possible null pointer dereference: comment_arg.</td></tr>
+       </table>
+      </div>
+      <div id="footer">
+        <p>
+         Cppcheck  - a tool for static C/C++ code analysis</br>
+         </br>
+         Internet: <a href="http://cppcheck.sourceforge.net">http://cppcheck.sourceforge.net</a></br>
+         IRC: <a href="irc://irc.freenode.net/cppcheck">irc://irc.freenode.net/cppcheck</a></br>
+        <p>
+      </div>
+  </body>
+</html>
