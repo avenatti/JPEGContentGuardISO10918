@@ -204,7 +204,7 @@ def GenerateSubDirAnalysis (sub_dir):
 
    # Generate the html view of the analysis information.
    analysis_dir = os.path.join (script_dir, sub_dir + "_analysis")
-   cmd = ["genhtml", "lcov.info", "--output-directory", analysis_dir]
+   cmd = ["genhtml", "lcov.info", "--output-directory", analysis_dir, "-t", sub_dir]
    subprocess.call (cmd)
 
    # Change back to the script directory.
