@@ -14,7 +14,9 @@ import time
 # Cleans the eviornment (directory) for a fresh run.
 def Clean ():
    print "---> Cleaning directory ..."
-   cmd = ["rm", "-rf", "djpeg", "rdjpgcom", "djpeg_analysis", "rdjpgcom_analysis"]
+   cmd = ["rm", "-rf", "djpeg", "rdjpgcom", "djpeg_analysis", "rdjpgcom_analysis", "guard", "analyze.pyc"]
+   subprocess.call (cmd)
+   cmd = ["rm", "-rf", "__init__.pyc"]
    subprocess.call (cmd)
    print "---> Cleaned."
 
@@ -31,6 +33,22 @@ def CopyLibJpegFiles ():
    cmd = ["mv", "jpeg-6b", "rdjpgcom"]
    subprocess.call (cmd)
    print "---> Copied libjpeg files."
+
+
+# Copy the guard files over.
+def CopyGuardFiles ():
+   print "---> Copying guard fies over ..."
+   cmd = ["cp", "-r", "../../../guard", "."]
+   subprocess.call (cmd)
+   print "---> Copied guard files."
+
+
+# Applies the configure patches to remove optimization and add gcov flags.
+def PatchGuardFiles ():
+   print "---> Patching guard files with gcov settings ..."
+   pset = patch.fromfile ("guard.patch.1")
+   pset.apply ()
+   print "---> Patched guard files."
 
 
 # Applies the configure patches to remove optimization and add gcov flags.
@@ -56,7 +74,8 @@ def PatchMakeFiles ():
 # Executes a command in the provided sub directory.
 # @param[in] sub_dir String of the subdirectory name.
 # @param[in] cmd String of the command to execute.
-def ExecuteSubDirCommand (sub_dir, cmd):
+# @param[in] arg1 Additional command argument.
+def ExecuteSubDirCommand (sub_dir, cmd, arg1=None):
    print "---> Executing " + cmd + " for " + sub_dir 
    
    # Get the script execution directory.
@@ -67,8 +86,12 @@ def ExecuteSubDirCommand (sub_dir, cmd):
    os.chdir (new_dir)
 
    # Execute the command.
-   new_cmd = [cmd]
-   subprocess.call (new_cmd)
+   if (arg1 is None):
+       new_cmd = [cmd]
+       subprocess.call (new_cmd)
+   else:
+       new_cmd = [cmd, arg1]
+       subprocess.call (new_cmd)
 
    # Change back to the script directory.
    os.chdir (script_dir)
@@ -82,10 +105,23 @@ def ExecuteConfigure ():
    ExecuteSubDirCommand ("rdjpgcom", "./configure")  
 
 
+# Executes the cmake command to setup the make system.
+def ExecuteCmake ():
+   curPath = os.getcwd ()
+   cmakePath = os.path.join (curPath, "guard") 
+   print "cmakePath = " + cmakePath
+   ExecuteSubDirCommand ("guard", "cmake", cmakePath)  
+
+
 # Builds the binary executables.
 def BuildExecutables ():
    ExecuteSubDirCommand ("djpeg", "make")  
    ExecuteSubDirCommand ("rdjpgcom", "make")  
+
+
+# Builds the guard binary executables.
+def BuildGuardExecutables ():
+   ExecuteSubDirCommand ("guard", "make")  
 
 
 # Runs the djpeg test.
@@ -130,6 +166,17 @@ def RunRdjpegcomTest ():
    print "---> Finished executing the rdjpgcom."
 
 
+# Runs the guard test.
+def RunGuardTest ():
+   print "---> Executing the guard test ..."
+
+   # Build the execution command.
+   cmd = ["./guard/build/bin/guard"]
+   subprocess.call (cmd)
+   
+   print "---> Finished executing the guard test."
+
+
 # Generates analysis information for a subdirectory for a given run.
 # @param[in] sub_dir String of the subdirectory to create analysis data for.
 def GenerateSubDirAnalysis (sub_dir):
@@ -145,6 +192,9 @@ def GenerateSubDirAnalysis (sub_dir):
    # Generate the gcov statistics.
    for file in os.listdir ("."):
       if (file.endswith (".c")):
+         cmd = ["gcov", "-a", "-b", file]
+         subprocess.call (cmd)
+      if (file.endswith (".cpp")):
          cmd = ["gcov", "-a", "-b", file]
          subprocess.call (cmd)
 
@@ -167,6 +217,11 @@ def GenerateSubDirAnalysis (sub_dir):
 def GenerateAnalysis ():
    GenerateSubDirAnalysis ("djpeg")
    GenerateSubDirAnalysis ("rdjpgcom")
+
+
+# Generates guard analysis information for a run.
+def GenerateGuardAnalysis ():
+   GenerateSubDirAnalysis ("guard")
 
 
 # Executes a step of sequences to produce the output data.
@@ -201,6 +256,28 @@ def Execute ():
    os.system ("firefox -new-tab djpeg_analysis/index.html &")
    time.sleep (1)
    os.system ("firefox -new-tab rdjpgcom_analysis/index.html &")
+
+   # 10. Copy the guard source files over.
+   CopyGuardFiles ()
+
+   # 11. Patch guard files.
+   PatchGuardFiles ()
+
+   # 12. Execute the cmake command.
+   ExecuteCmake ()
+
+   # 13. Build the guard executables.
+   BuildGuardExecutables ()
+
+   # 14.  Run the guard test.
+   RunGuardTest ()
+
+   # 15. Generate the guard analysis information.
+   GenerateGuardAnalysis ()
+
+   # 16. Display the analysis information.
+   time.sleep (1)
+   os.system ("firefox -new-tab guard_analysis/index.html &")
 
 
 ###############################################################################

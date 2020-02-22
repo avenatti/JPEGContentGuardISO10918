@@ -38,5 +38,7 @@ analysis/static/cppcheck/code_analysis_guard
 analysis/static/cppcheck/code_analysis
 analysis/dynamic/gcov/djpeg_analysis
 analysis/dynamic/gcov/rdjpgcom_analysis
+analysis/dynamic/gcov/guard
+analysis/dynamic/gcov/guard_analysis
 
 
