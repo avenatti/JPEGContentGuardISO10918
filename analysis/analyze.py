@@ -11,14 +11,6 @@ import os
 import subprocess
 
 
-# Cleans the eviornment (directory) for a fresh run.
-def Clean ():
-   print "---> Cleaning directory ..."
-   cmd = ["rm", "-rf", "code_analysis"]
-   subprocess.call (cmd)
-   print "---> Cleaned."
-
-
 # Executes the dynamic gcov analsyis.
 def ExecuteGcov ():
    
@@ -59,17 +51,11 @@ def ExecuteCppcheck ():
 
 if __name__ == '__main__':
 
-   # Clean the environment.
-   Clean ()
-
    # Generate the gcov analysis.
    ExecuteGcov ()
 
    # Generate the cppcheck analysis.
    ExecuteCppcheck ()
-
-   # Clean the environment.
-   Clean ()
 
 
 
