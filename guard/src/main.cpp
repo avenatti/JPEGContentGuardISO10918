@@ -11,7 +11,7 @@
 ///    M. Benson	2/8/2020 	Initial version.
 
 
-#include <iostream>
+#include "logging.hpp"
 
 
 // Name spaces.
@@ -24,6 +24,6 @@ using namespace std;
 /// @return ???
 int main (int argc, char* argv[])
 {
-   cout << "JPEG Content Guard" << endl;
+   INFO_LOG ("Main executed");
 }
 
