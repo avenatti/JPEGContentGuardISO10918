@@ -32,4 +32,8 @@ CTestTestfile.cmake
 runner.cpp
 guard/CMakeFiles
 guard/build
+analysis/static/cppcheck/code
+analysis/static/cppcheck/guard
+analysis/static/cppcheck/code_analysis_guard
+analysis/static/cppcheck/code_analysis
 

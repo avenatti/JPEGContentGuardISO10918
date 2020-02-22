@@ -8,6 +8,7 @@
 import subprocess
 import sys
 import os
+import time
 
 
 # Cleans the eviornment (directory) for a fresh run.
@@ -101,13 +102,13 @@ def Execute ():
    Clean ()
 
    # 2. Copy over a fresh copy of the libjpeg source code. 
-   #CopyLibJpegFiles ()
+   CopyLibJpegFiles ()
 
    # 3. Execute the static analysis.
-   #Analyze ()
+   Analyze ()
 
    # 4. Display the analysis information.
-   #os.system ("firefox -new-tab code_analysis/index.html &")
+   os.system ("firefox -new-tab code_analysis/index.html &")
 
    # 5. Copy over a fresh copy of the guard source code.
    CopyGuardFiles ()
@@ -116,6 +117,7 @@ def Execute ():
    AnalyzeGuard ()
 
    # 7. Display the guard analysis information.
+   time.sleep (1)
    os.system ("firefox -new-tab code_analysis_guard/index.html &")
 
 
