@@ -13,7 +13,7 @@
 
 #include "Config.hpp"
 #include "logging.hpp"
-#include <sys/stat.h>
+#include "utils.hpp"
 #include <sstream>
 #include <fstream>
 #include <algorithm>
@@ -43,22 +43,6 @@ Config::Config ()
 Config::~Config ()
 {
 
-}
-
-
-/// Verifies if a path or file exists.
-/// @param[in] name Path/file to check. 
-/// @return true if exists, false otherwise.
-bool Config::Exists (string& name)
-{
-   bool result;
-   struct stat buffer;
-
-
-   // Stat the file.
-   result = (stat (name.c_str (), &buffer) == 0);
-
-   return (result);
 }
 
 
@@ -165,30 +149,6 @@ void Config::ParseLine (string& line)
       ERR_LOG ("Invalid config line \"" << line << "\".");
       ERR_LOG ("Size = " << tuples.size ());
    }
-}
-
-
-/// Splits a string into separate pieces.
-/// @param[in] str String to split up.
-/// @param[in] delimiter Delimiter to use for the splitting.
-/// @return a vector of split pieces.
-vector<string> Config::SplitStr (string& str, string& delimiter)
-{
-   vector<string> result;
-   string::size_type pos = 0;
-   string::size_type prev = 0;
-
-   // Walk the string.
-   while ((pos = str.find (delimiter, prev)) != string::npos)
-   {
-      result.push_back (str.substr (prev, pos - prev));
-      prev = pos + 1;
-   }
-
-   // Capture the last delimiter piece.
-   result.push_back (str.substr (prev));
-
-   return (result);
 }
 
 

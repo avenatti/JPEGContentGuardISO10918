@@ -12,7 +12,9 @@
 
 
 #include "logging.hpp"
+#include "utils.hpp"
 #include "Config.hpp"
+#include <vector>
 
 
 // Name spaces.
@@ -84,6 +86,7 @@ int main (int argc, char* argv[])
 {
    string configFile;
    Settings settings;
+   vector<string> files;
 
 
    // Log startup info.
@@ -100,6 +103,31 @@ int main (int argc, char* argv[])
          // Get the settings.
          settings = config.GetSettings ();
          settings.Log ();
+
+         // Create the accept and drop directories.
+         CreateDir (settings.acceptDir);
+         CreateDir (settings.dropDir);
+
+         // TODO - Allocate and initialize the metrics.
+
+         // TODO - Allocate and initialize the gauntlet.
+
+         // Get a list of jpeg image files to process.
+         files = GetDirFiles (settings.imageDir);
+#if 1 //MWB DEBUG
+         for (int i = 0; i < files.size (); i++)
+            DEBUG_LOG ("DIR: " << files[i]);
+#endif //MWB DEBUG
+
+         // TODO - Run each file through the gauntlet.
+
+         // TODO - Update metrics.
+
+         // TODO - Copy file to either the accept for drop directories.
+
+         // TODO - Log the final metric information.
+
+         // TODO - Perform any necessary resource deallocations.
       }
    }
    else

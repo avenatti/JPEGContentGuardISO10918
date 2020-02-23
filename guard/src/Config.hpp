@@ -72,23 +72,10 @@ class Config
       Config ();
 
 
-      /// Verifies if a path or file exists.
-      /// @param[in] name Path/file to check. 
-      /// @return true if exists, false otherwise.
-      bool Exists (std::string& name);
-
-
       /// Parses a configuration line of text.
       /// @param[in] line Text line to parse.
       /// @return void.
       void ParseLine (std::string& line);
-
-
-      /// Splits a string into separate pieces.
-      /// @param[in] str String to split up.
-      /// @param[in] delimiter Delimiter to use for the splitting.
-      /// @return a vector of split pieces.
-      std::vector<std::string> SplitStr (std::string& str, std::string& delimiter);
 };
 
 

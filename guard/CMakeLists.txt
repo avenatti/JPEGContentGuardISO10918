@@ -14,7 +14,6 @@ set (TARGET_UNITTESTS unittests)
 
 # Compiler and linker flags.
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -DALL_LOGGING")
-#set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -DBANNER_LOGGING -DERROR_LOGGING")
 set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
 
 
