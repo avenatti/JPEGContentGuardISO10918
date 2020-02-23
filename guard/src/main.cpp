@@ -12,18 +12,107 @@
 
 
 #include "logging.hpp"
+#include "Config.hpp"
 
 
 // Name spaces.
 using namespace std;
 
 
+/// Logs the calling command line arguments.
+/// @param[in] argc Standard C++ argc, which is the number of argv items.
+/// @param[in] argv Standard C++ argv, which is the provided command line arguments.
+/// @return void.
+void LogCommandLineArgs (int argc, char* argv[])
+{
+   string cmdLine = "Command Line Arguments: ";
+
+
+   // Buld the command line string.
+   for (int i = 0; i < argc; i++)
+   {
+      cmdLine += argv[i];
+      cmdLine += " ";
+   }
+
+   // Log the arguments.
+   INFO_LOG (cmdLine);
+}
+
+
+/// Parses the application provided command line arguments.
+/// @param[in] argc Standard C++ argc, which is the number of argv items.
+/// @param[in] argv Standard C++ argv, which is the provided command line arguments.
+/// @param[out] config Will hold the configuration file path/name.
+/// @return true on succes, false otherwise.
+bool ParseCommandLineArgs (int argc, char* argv[], string& config)
+{
+   bool result = false;
+
+
+   // Expected number for arguments?
+   if (argc == 3)
+   {
+      // Loop through the arguments.
+      for (int i = 0; i < argc; i++)
+      {
+         string cmd = argv[i];
+
+
+         if (cmd.compare ("--cfg") == 0)
+         {
+            config = argv[(i + 1)]; 
+            i++;
+         }
+      }
+   }
+
+   // Did we get what was expected?
+   if (config.length () > 0)
+      result = true;
+
+   return (result);
+}
+
+
 /// Entry point for the guard application.
+/// Usage:  guard --cfg <file_name>.
 /// @param[in] argc Standard C++ argc, which is the number of argv items.
 /// @param[in] arvg Standard C++ argv, which is the provided command line arguments.
 /// @return ???
 int main (int argc, char* argv[])
 {
-   INFO_LOG ("Main executed");
+   string configFile;
+   Settings settings;
+
+
+   // Log startup info.
+   LogCommandLineArgs (argc, argv);
+   INFO_LOG ("Starting Guard.");
+
+   // Parse the command line arguments.
+   if (ParseCommandLineArgs (argc, argv, configFile) == true)
+   {
+      // Parse the configuration.
+      Config config (configFile);
+      if (config.Parse () == true)
+      {
+         // Get the settings.
+         settings = config.GetSettings ();
+         settings.Log ();
+      }
+   }
+   else
+   {
+      ERR_LOG  ("Invalid calling arguments.");
+      ERR_LOG  ("Usage:  guard --cfg <file_name>");
+   } 
+   
+   INFO_LOG ("Exiting Guard.");
 }
+
+
+
+
+
 
