@@ -40,6 +40,8 @@ def CopyGuardFiles ():
    print "---> Copying guard fies over ..."
    cmd = ["cp", "-r", "../../../guard", "."]
    subprocess.call (cmd)
+   cmd = ["rm", "-rf", "guard/CMakeCache.txt"]
+   subprocess.call (cmd)
    print "---> Copied guard files."
 
 
@@ -171,7 +173,9 @@ def RunGuardTest ():
    print "---> Executing the guard test ..."
 
    # Build the execution command.
-   cmd = ["./guard/build/bin/guard"]
+   cur_dir = os.getcwd () 
+   config = os.path.join (cur_dir, "guard/src/cfg/example.cfg") 
+   cmd = ["./guard/build/bin/guard", "--cfg", config]
    subprocess.call (cmd)
    
    print "---> Finished executing the guard test."
