@@ -18,10 +18,12 @@
 #include "logging.hpp"
 #include "utils.hpp"
 #include <iomanip>
+#include <experimental/filesystem>
 
 
 // Name spaces.
 using namespace std;
+namespace fs = std::experimental::filesystem;
 
 
 // Constructor.
@@ -133,7 +135,7 @@ bool Gauntlet::Check (ifstream& stream, GauntletException& e)
 
    
    // Get the file size.
-   fileSize = GetFileSize (e.image);
+   fileSize = fs::file_size (e.image);
  
    // Read the first marker.
    bytesRead += ProcessFirstMarker (stream, e); 

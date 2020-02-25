@@ -17,10 +17,12 @@
 #include <sstream>
 #include <fstream>
 #include <algorithm>
+#include <experimental/filesystem>
 
 
 // Name spaces.
 using namespace std;
+namespace fs = std::experimental::filesystem;
 
 
 /// Constructor.
@@ -55,7 +57,7 @@ bool Config::Parse ()
 
 
    // Verify the config file exists.
-   if (Exists (m_file) == true)
+   if (fs::exists (m_file) == true)
    {
       INFO_LOG ("Parsing configuration file \"" << m_file << "\".");
       result = true;
@@ -69,7 +71,7 @@ bool Config::Parse ()
          ParseLine (line);
 
       // Ensure the image directory exists.
-      if (Exists (m_settings.imageDir) == false)
+      if (fs::exists (m_settings.imageDir) == false)
       {
          ERR_LOG ("Image directory \"" << m_settings.imageDir << "\" doesn't exist");
          result = false;

@@ -22,7 +22,6 @@
 
 // Name spaces.
 using namespace std;
-//using namespace std::experimental::filesystem;
 namespace fs = std::experimental::filesystem;
 
 
@@ -110,8 +109,11 @@ int main (int argc, char* argv[])
          settings.Log ();
 
          // Create the accept and drop directories.
-         CreateDir (settings.acceptDir);
-         CreateDir (settings.dropDir);
+         if (fs::exists (settings.acceptDir) == false)
+            fs::create_directory (settings.acceptDir);
+
+         if (fs::exists (settings.dropDir) == false)
+            fs::create_directory (settings.dropDir);
 
          // Allocate and initialize the gauntlet.
          Gauntlet gauntlet (settings);
