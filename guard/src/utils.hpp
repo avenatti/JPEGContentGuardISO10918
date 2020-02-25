@@ -45,6 +45,12 @@ bool Exists (std::string& name);
 void CreateDir (std::string& dir);
 
 
+/// Looks for the expected first marker in jpeg file.
+/// @param[in] name File name.
+/// @return size of the file.
+int GetFileSize (std::string& name);
+
+
 #endif //__UTILS_HPP__
 
 

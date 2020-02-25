@@ -14,6 +14,8 @@
 #include "logging.hpp"
 #include "utils.hpp"
 #include "Config.hpp"
+#include "Gauntlet.hpp"
+#include "Metrics.hpp"
 #include <vector>
 
 
@@ -108,26 +110,23 @@ int main (int argc, char* argv[])
          CreateDir (settings.acceptDir);
          CreateDir (settings.dropDir);
 
-         // TODO - Allocate and initialize the metrics.
-
-         // TODO - Allocate and initialize the gauntlet.
+         // Allocate and initialize the gauntlet.
+         Gauntlet gauntlet (settings);
 
          // Get a list of jpeg image files to process.
          files = GetDirFiles (settings.imageDir);
-#if 1 //MWB DEBUG
+
+         // Run each file through the gauntlet.
          for (int i = 0; i < files.size (); i++)
-            DEBUG_LOG ("DIR: " << files[i]);
-#endif //MWB DEBUG
+         {
+            bool accept = gauntlet.Run (files[i]);  
 
-         // TODO - Run each file through the gauntlet.
+            // TODO - Copy file to either the accept for drop directories.
+         }
 
-         // TODO - Update metrics.
-
-         // TODO - Copy file to either the accept for drop directories.
-
-         // TODO - Log the final metric information.
-
-         // TODO - Perform any necessary resource deallocations.
+         // Log the final metric information.
+         Metrics metrics = gauntlet.GetMetrics ();
+         metrics.Log ();
       }
    }
    else

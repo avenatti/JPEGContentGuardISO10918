@@ -70,7 +70,7 @@ vector<string> GetDirFiles (string& dir)
             if ((currentDir.compare (pEnt->d_name) != 0) &&
                 (parentDir.compare (pEnt->d_name) != 0))
             {
-               result.push_back (pEnt->d_name);
+               result.push_back (dir + "/" + pEnt->d_name);
             }
          }
          
@@ -111,6 +111,24 @@ void CreateDir (std::string& dir)
    // Execute the command.
    system (cmd.c_str ());
 }
+
+
+/// Looks for the expected first marker in jpeg file.
+/// @param[in] name File name.
+/// @return size of the file.
+int GetFileSize (string& name)
+{
+   int result = 0;
+   struct stat buf;
+
+
+   // Get the size.
+   if (stat (name.c_str (), &buf) == 0);
+      result = buf.st_size;
+
+   return (result);
+}
+
 
 
 
