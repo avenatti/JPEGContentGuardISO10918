@@ -14,7 +14,6 @@ set (TARGET_UNITTESTS unittests)
 
 # Compiler and linker flags.
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -DALL_LOGGING")
-#set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -DBANNER_LOGGING -DERROR_LOGGING")
 set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
 
 
@@ -38,7 +37,7 @@ file (GLOB GUARD_SRCS ${CMAKE_SOURCE_DIR}/src/*.cpp)
 set (PROJECT_GUARD_SRCS ${GUARD_SRCS} CACHE INTERNAL "list of source files for guard")
 message (STATUS "Guard Source Files: ${PROJECT_GUARD_SRCS}")
 add_executable (${TARGET_GUARD} ${PROJECT_GUARD_SRCS})
-target_link_libraries (${TARGET_GUARD})
+target_link_libraries (${TARGET_GUARD} -lstdc++fs)
 
 
 # Build CxxTest unit test support.
@@ -59,7 +58,7 @@ if (CXXTEST_FOUND)
 
    # Build the test runner.
    CXXTEST_ADD_TEST (${TARGET_UNITTESTS} runner.cpp ${UNITTEST_SRCS} ${GUARD_SRCS})
-   target_link_libraries (${TARGET_UNITTESTS}) 
+   target_link_libraries (${TARGET_UNITTESTS} -lstdc++fs) 
 
 endif ()
 

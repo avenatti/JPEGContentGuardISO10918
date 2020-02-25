@@ -1,20 +1,20 @@
---- guard/CMakeLists.txt.orig	2020-02-21 18:49:31.539477806 -0800
-+++ guard/CMakeLists.txt	2020-02-21 18:52:18.374106324 -0800
+--- guard/CMakeLists.txt.orig	2020-02-24 20:14:20.319563388 -0600
++++ guard/CMakeLists.txt	2020-02-24 20:14:59.422815452 -0600
 @@ -13,7 +13,7 @@
  
  
  # Compiler and linker flags.
 -set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -DALL_LOGGING")
 +set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -O0 -fprofile-arcs -ftest-coverage -DALL_LOGGING")
- #set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -DBANNER_LOGGING -DERROR_LOGGING")
  set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
  
-@@ -38,7 +38,7 @@
+ 
+@@ -37,7 +37,7 @@
  set (PROJECT_GUARD_SRCS ${GUARD_SRCS} CACHE INTERNAL "list of source files for guard")
  message (STATUS "Guard Source Files: ${PROJECT_GUARD_SRCS}")
  add_executable (${TARGET_GUARD} ${PROJECT_GUARD_SRCS})
--target_link_libraries (${TARGET_GUARD})
-+target_link_libraries (${TARGET_GUARD} -lgcov --coverage)
+-target_link_libraries (${TARGET_GUARD} -lstdc++fs)
++target_link_libraries (${TARGET_GUARD} -lstdc++fs -lgcov --coverage)
  
  
  # Build CxxTest unit test support.

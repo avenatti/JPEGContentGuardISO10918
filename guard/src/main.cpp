@@ -17,10 +17,13 @@
 #include "Gauntlet.hpp"
 #include "Metrics.hpp"
 #include <vector>
+#include <experimental/filesystem>
 
 
 // Name spaces.
 using namespace std;
+//using namespace std::experimental::filesystem;
+namespace fs = std::experimental::filesystem;
 
 
 /// Logs the calling command line arguments.
@@ -121,7 +124,11 @@ int main (int argc, char* argv[])
          {
             bool accept = gauntlet.Run (files[i]);  
 
-            // TODO - Copy file to either the accept for drop directories.
+            // Copy file to either the accept for drop directories.
+            if (accept == true)
+               fs::copy (files[i], settings.acceptDir, fs::copy_options::overwrite_existing);     
+            else
+               fs::copy (files[i], settings.dropDir, fs::copy_options::overwrite_existing);     
          }
 
          // Log the final metric information.
