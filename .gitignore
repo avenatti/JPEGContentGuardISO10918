@@ -40,5 +40,7 @@ analysis/dynamic/gcov/djpeg_analysis
 analysis/dynamic/gcov/rdjpgcom_analysis
 analysis/dynamic/gcov/guard
 analysis/dynamic/gcov/guard_analysis
+analysis/dynamic/gcov/test*
+analysis/dynamic/gcov/configs
 
 
