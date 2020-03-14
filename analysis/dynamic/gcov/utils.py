@@ -8,6 +8,7 @@ import os
 import subprocess
 import patch
 import time
+import fileinput
 
 
 # Gets the directory for the sample images.
@@ -19,10 +20,19 @@ def GetSampleDir ():
    return (sampleDir)
 
 
-# Gets the diretory for the djpeg source code.
-def GetDjpegSrcDir ():
+# Gets the diretory for the libjpeg 6b djpeg source code.
+def GetDjpeg6bSrcDir ():
    curDir = os.getcwd ()
    os.chdir ("../../../jpeg-6b")
+   djpegSrcDir = os.getcwd ()
+   os.chdir (curDir)
+   return (djpegSrcDir)
+
+
+# Gets the diretory for the libjpeg turbo djpeg source code.
+def GetDjpegTurboSrcDir ():
+   curDir = os.getcwd ()
+   os.chdir ("../../../libjpeg-turbo-2.0.4")
    djpegSrcDir = os.getcwd ()
    os.chdir (curDir)
    return (djpegSrcDir)
@@ -44,10 +54,18 @@ def GetPatchDir ():
    return (patchDir)
 
 
-# Copy the libjpeg files over.
+# Copy the libjpeg 6b files over.
 # copyDir: Where to copy the files over.
-def CopyLibJpegFiles (copyDir):
-   djpegSrcDir = GetDjpegSrcDir ()
+def CopyLibJpeg6bFiles (copyDir):
+   djpegSrcDir = GetDjpeg6bSrcDir ()
+   cmd = ["cp", "-r", djpegSrcDir, copyDir]
+   subprocess.call (cmd)
+
+
+# Copy the libjpeg turbo files over.
+# copyDir: Where to copy the files over.
+def CopyLibJpegTurboFiles (copyDir):
+   djpegSrcDir = GetDjpegTurboSrcDir ()
    cmd = ["cp", "-r", djpegSrcDir, copyDir]
    subprocess.call (cmd)
 
@@ -70,6 +88,25 @@ def Patch (patchDir, codeDir, patchFile):
    os.chdir (codeDir)
    pset = patch.fromfile (patch1)
    pset.apply ()
+   os.chdir (curDir)
+
+
+# In a brute force manner, this patches the CMakeCache.txt for libjpeg-turbo.
+# codeDir: Where the code is to patch.
+# patchFile: patch file to apply.
+def PatchTurbo (codeDir):
+   curDir = os.getcwd ()
+   os.chdir (codeDir)
+   for line in fileinput.input ("CMakeCache.txt", inplace=True):
+      if ((line.find ("ADVANCED")) >= 0):
+         print line.rstrip ('\n')
+      elif ((line.find ("CMAKE_C_FLAGS_RELEASE")) >= 0):
+         print "CMAKE_C_FLAGS_RELEASE:STRING=-g -O0 -fprofile-arcs -ftest-coverage -fPIC -DNDEBUG".rstrip ('\n')
+      elif ((line.find ("CMAKE_EXE_LINKER_FLAGS_RELEASE")) >= 0):
+         print "CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=-lgcov --coverage".rstrip ('\n')
+      else:
+         print line.rstrip ('\n')
+   fileinput.close ()
    os.chdir (curDir)
 
 
@@ -103,16 +140,16 @@ def Build (codeDir):
    os.chdir (curDir)
 
 
-# Sets up the test environment for a djpeg test.
+# Sets up the test environment for a djpeg 6b test.
 # testDir: Where to setup the test.
 # djpegDir: Where to setup the djpeg stuff for the test.
-def DjpegSetup (testDir, djpegDir):
+def Djpeg6bSetup (testDir, djpegDir):
 
    print "---> Setting up test envrionment ..."
    print "   --- Making directories ... "
    os.mkdir (djpegDir)
    print "   --- Copying libjpeg source files ... "
-   CopyLibJpegFiles (djpegDir)
+   CopyLibJpeg6bFiles (djpegDir)
    print "   --- Patching libjpeg config file."
    patchDir = GetPatchDir ()
    codeDir = os.path.join (djpegDir, "jpeg-6b")
@@ -126,6 +163,26 @@ def DjpegSetup (testDir, djpegDir):
    print "---> Finished setting up test envrionment."
 
 
+# Sets up the test environment for a djpeg turbo test.
+# testDir: Where to setup the test.
+# djpegDir: Where to setup the djpeg stuff for the test.
+def DjpegTurboSetup (testDir, djpegDir):
+
+   print "---> Setting up test envrionment ..."
+   print "   --- Making directories ... "
+   os.mkdir (djpegDir)
+   print "   --- Copying libjpeg-trubo source files ... "
+   CopyLibJpegTurboFiles (djpegDir)
+   codeDir = os.path.join (djpegDir, "libjpeg-turbo-2.0.4")
+   print "   --- Runing cmake on libjpeg-trubo source files ... "
+   Cmake (codeDir)
+   print "   --- Patching libjpeg-trubo source files ... "
+   PatchTurbo (codeDir)
+   print "   --- Building libjpeg-trubo source files ... "
+   Build (codeDir)
+   print "---> Finished setting up test envrionment."
+
+
 # Sets up the test environment for a rdjpgcom test.
 # testDir: Where to setup the test.
 # rdjpgcomDir: Where to setup the rdjpgcom stuff for the test.
@@ -135,7 +192,7 @@ def RdjpgcomSetup (testDir, rdjpgcomDir):
    print "   --- Making directories ... "
    os.mkdir (rdjpgcomDir)
    print "   --- Copying libjpeg source files ... "
-   CopyLibJpegFiles (rdjpgcomDir)
+   CopyLibJpeg6bFiles (rdjpgcomDir)
    print "   --- Patching libjpeg config file."
    patchDir = GetPatchDir ()
    codeDir = os.path.join (rdjpgcomDir, "jpeg-6b")

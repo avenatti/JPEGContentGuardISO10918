@@ -21,7 +21,7 @@ def Execute (name):
    codeDir = os.path.join (djpegDir, "jpeg-6b")
 
    # 2. Setup test envrionment.
-   utils.DjpegSetup (testDir, djpegDir)
+   utils.Djpeg6bSetup (testDir, djpegDir)
 
    # 3. Execute the test.
    utils.RunDjpegTest (codeDir, sampleDir)

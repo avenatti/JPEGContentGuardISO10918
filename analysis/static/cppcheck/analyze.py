@@ -14,85 +14,62 @@ import time
 # Cleans the eviornment (directory) for a fresh run.
 def Clean ():
    print "---> Cleaning directory ..."
-   cmd = ["rm", "-rf", "code", "code_analysis", "guard_code"]
+   cmd = ["rm", "-rf", "analysis_guard", "analysis_jpeg-6b", "analysis_libjpeg-turbo-2.0.4"]
+   subprocess.call (cmd)
+   cmd = ["rm", "-rf", "guard", "jpeg-6b", "libjpeg-turbo-2.0.4"]
    subprocess.call (cmd)
    print "---> Cleaned."
 
 
-# Copy the libjpeg files over.
-def CopyLibJpegFiles ():
-   print "---> Copying libjpeg files over ..."
-   cmd = ["cp", "-r", "../../../jpeg-6b", "."]
+# Copy source files.
+def CopySourceFiles (srcDir):
+   print "---> Copying " + srcDir + " files over ..."
+   fileDir = os.path.join ("../../..", srcDir)
+   cmd = ["cp", "-r", fileDir, "."]
    subprocess.call (cmd)
-   cmd = ["mv", "jpeg-6b", "code"]
-   subprocess.call (cmd)
-   print "---> Copied libjpeg files."
+   print "---> Finished copying " + srcDir + " files over."
 
 
-# Copy the guard files over.
-def CopyGuardFiles ():
-   print "---> Copying guard files over ..."
-   cmd = ["cp", "-r", "../../../guard", "."]
-   subprocess.call (cmd)
-   print "---> Copied guard files."
-
-
-# Perform static analysis of the code.
-def Analyze ():
-   print "---> Statically analyzing the code."
+# Analyzes source code.
+def Analyze (srcDir, arg1=None):
+   print "---> Statically analyzing the " + srcDir + " code ..."
 
    # Create a dirctory to hold the analysis information.
-   cmd = ["mkdir", "-p", "code_analysis"]
+   curDir = os.getcwd ()
+   analysisDir = "analysis_" + srcDir
+   cmd = ["mkdir", "-p", analysisDir]
    subprocess.call (cmd)
 
    # Perform the analysis.
-   cmd = ["cppcheck", "--xml", "--check-library", "--enable=warning", "-v", "code"]
+   analyze = os.path.join (curDir, srcDir)
+   if (arg1 is not None):
+      analyze = os.path.join (analyze, arg1)
+
+   cmd = ["cppcheck", "--xml", "--check-library", "--enable=warning", "-v", analyze]
    p = subprocess.Popen (cmd, stderr=subprocess.PIPE)
    stdout, stderr = p.communicate ()
 
    # Write out the results.
-   f = open ("code_analysis/analysis_results.xml", "w")
+   fileName = os.path.join (analysisDir, "analysis_result.xml")
+   f = open (fileName, "w")
    f.write (stderr)
    f.close ()
 
    # Generate the html format of the results.
    cmd = ["cppcheck-htmlreport", 
-          "--title=libjpeg-static-analysis", 
-          "--file=code_analysis/analysis_results.xml", 
-          "--report-dir=code_analysis", 
-          "--source-dir=code"]
+          "--title=" + srcDir + "-static-analysis", 
+          "--file=" + fileName,
+          "--report-dir=" + analysisDir,
+          "--source-dir=" + analyze]
    subprocess.call (cmd)
 
-   print "---> Finished statically analyzing the code."
+   # Display the analysis results.
+   indexFile = os.path.join (analysisDir, "index.html") 
+   time.sleep (1)
+   os.system ("firefox -new-tab " + indexFile + " &")
 
-
-# Perform static analysis of the guard code.
-def AnalyzeGuard ():
-   print "---> Statically analyzing the guard code."
-
-   # Create a dirctory to hold the analysis information.
-   cmd = ["mkdir", "-p", "code_analysis_guard"]
-   subprocess.call (cmd)
-
-   # Perform the analysis.
-   cmd = ["cppcheck", "--xml", "--check-library", "--enable=warning", "-v", "guard/src"]
-   p = subprocess.Popen (cmd, stderr=subprocess.PIPE)
-   stdout, stderr = p.communicate ()
-
-   # Write out the results.
-   f = open ("code_analysis_guard/analysis_results.xml", "w")
-   f.write (stderr)
-   f.close ()
-
-   # Generate the html format of the results.
-   cmd = ["cppcheck-htmlreport", 
-          "--title=guard-static-analysis", 
-          "--file=code_analysis_guard/analysis_results.xml", 
-          "--report-dir=code_analysis_guard", 
-          "--source-dir=guard"]
-   subprocess.call (cmd)
-
-   print "---> Finished statically analyzing the guard code."
+   print "---> Finished statically analyzing the " + srcDir + " code ..."
+   print "MWB:  analyze = " + analyze
 
 
 # Executes a step of sequences to produce the output data.
@@ -101,24 +78,17 @@ def Execute ():
    # 1. Clean out an remnants of previous runs.
    Clean ()
 
-   # 2. Copy over a fresh copy of the libjpeg source code. 
-   CopyLibJpegFiles ()
+   # 2. Copy and anlyze the libjpeg 6b files.
+   CopySourceFiles ("jpeg-6b")
+   Analyze ("jpeg-6b")
 
-   # 3. Execute the static analysis.
-   Analyze ()
+   # 3. Copy and anlyze the libjpeg turbo files.
+   CopySourceFiles ("libjpeg-turbo-2.0.4")
+   Analyze ("libjpeg-turbo-2.0.4")
 
-   # 4. Display the analysis information.
-   os.system ("firefox -new-tab code_analysis/index.html &")
-
-   # 5. Copy over a fresh copy of the guard source code.
-   CopyGuardFiles ()
-
-   # 6. Copy over a fresh copy of the guard source code.
-   AnalyzeGuard ()
-
-   # 7. Display the guard analysis information.
-   time.sleep (1)
-   os.system ("firefox -new-tab code_analysis_guard/index.html &")
+   # 4. Copy and anlyze the guard files.
+   CopySourceFiles ("guard")
+   Analyze ("guard", "src")
 
 
 ###############################################################################
@@ -129,11 +99,5 @@ if __name__ == '__main__':
 
    # Execute.
    Execute ()
-
-
-
-
-
-
 
 

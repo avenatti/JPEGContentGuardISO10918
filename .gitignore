@@ -36,6 +36,9 @@ analysis/static/cppcheck/code
 analysis/static/cppcheck/guard
 analysis/static/cppcheck/code_analysis_guard
 analysis/static/cppcheck/code_analysis
+analysis/static/cppcheck/analysis_jpeg-6b
+analysis/static/cppcheck/jpeg-6b
+analysis/static/cppcheck/libjpeg-turbo-2.0.4
 analysis/dynamic/gcov/djpeg_analysis
 analysis/dynamic/gcov/rdjpgcom_analysis
 analysis/dynamic/gcov/guard

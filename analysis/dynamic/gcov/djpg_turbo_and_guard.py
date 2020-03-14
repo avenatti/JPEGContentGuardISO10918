@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 
 
-# This script executes a libjpeg 6b djpeg with guard test.
+# This script executes a libjpeg turbo djpeg with gurad test .
 
 
 import os
@@ -20,17 +20,17 @@ def Execute (name):
    testDir = os.path.join (curDir, name)
    configFile = os.path.join (configDir, configFileName)
    acceptDir = utils.GetAcceptDir (configFile)
-   djpegDir = os.path.join (testDir, "djpeg-6b-guard")
-   codeDir = os.path.join (djpegDir, "jpeg-6b")
+   djpegDir = os.path.join (testDir, "djpeg-turbo")
+   codeDir = os.path.join (djpegDir, "libjpeg-turbo-2.0.4")
 
    # 2. Setup test envrionment.
-   utils.Djpeg6bSetup (testDir, djpegDir)
+   utils.DjpegTurboSetup (testDir, djpegDir)
 
    # 3. Execute the test.
    utils.RunDjpegTest (codeDir, acceptDir)
 
    # 4. Generate the analysis information.
-   utils.GenerateAnalysisData (codeDir, name + "-djpg-6b-and-guard")
+   utils.GenerateAnalysisData (codeDir, name + "-djpg-turbo-and-guard")
 
    # 5. Display the analysis information.
    utils.DisplayAnalysisData (codeDir)
