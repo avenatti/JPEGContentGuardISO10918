@@ -8,17 +8,17 @@
 import subprocess
 import os
 import confgen
-import djpg_standalone
-import rdjpgcom_standalone
+import djpg_6b_standalone
+import rdjpgcom_6b_standalone
 import guard
-import djpg_and_guard
-import rdjpgcom_and_guard
+import djpg_6b_and_guard
+import rdjpgcom_6b_and_guard
 
 
 # Cleans the eviornment (directory) for a fresh run.
 def Clean ():
    print "---> Cleaning directory ..."
-   cmd = ["rm", "-rf", "*.pyc", "test1"]
+   cmd = ["rm", "-rf", "*.pyc", "baseline", "test1"]
    subprocess.call (cmd)
    print "---> Cleaned."
 
@@ -32,7 +32,14 @@ def Execute ():
    # 2. Create the test configuration files.
    confgen.Generate ()
 
-   # 3. Loop through each test configuration file.
+   # 3. Execute the standalone tests.
+   curDir = os.getcwd ()
+   baselineDir = os.path.join (curDir, "baseline")
+   os.mkdir (baselineDir)
+   djpg_6b_standalone.Execute ("baseline");
+   rdjpgcom_6b_standalone.Execute ("baseline")
+
+   # 4. Loop through each test configuration file.
    curDir = os.getcwd ()
    configDir = os.path.join (curDir, "configs")
    files = os.listdir (configDir)
@@ -42,20 +49,14 @@ def Execute ():
       testDir = os.path.join (curDir, name)
       os.mkdir (testDir)
   
-      # Execute the djpeg standalone test.
-      djpg_standalone.Execute (name)
-
-      # Execute the rdjpgcom standalone test.
-      rdjpgcom_standalone.Execute (name)
-
       # Execute the guard test.
       guard.Execute (name)
 
       # Execute the djpeg filtered by guard test.
-      djpg_and_guard.Execute (name)
+      djpg_6b_and_guard.Execute (name)
 
       # Execute the rdjpgcom filtered by guard test.
-      rdjpgcom_and_guard.Execute (name)
+      rdjpgcom_6b_and_guard.Execute (name)
 
 
 ###############################################################################
