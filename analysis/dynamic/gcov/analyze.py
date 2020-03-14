@@ -13,6 +13,7 @@ import djpg_turbo_standalone
 import djpg_moz_standalone
 import rdjpgcom_6b_standalone
 import rdjpgcom_turbo_standalone
+import rdjpgcom_moz_standalone
 import guard
 import djpg_6b_and_guard
 import djpg_turbo_and_guard
@@ -41,11 +42,12 @@ def Execute ():
    curDir = os.getcwd ()
    baselineDir = os.path.join (curDir, "baseline")
    os.mkdir (baselineDir)
-   djpg_6b_standalone.Execute ("baseline");
-   djpg_turbo_standalone.Execute ("baseline");
-   djpg_moz_standalone.Execute ("baseline");
-   rdjpgcom_6b_standalone.Execute ("baseline")
-   rdjpgcom_turbo_standalone.Execute ("baseline");
+   #djpg_6b_standalone.Execute ("baseline");
+   #djpg_turbo_standalone.Execute ("baseline");
+   #djpg_moz_standalone.Execute ("baseline");
+   #rdjpgcom_6b_standalone.Execute ("baseline")
+   #rdjpgcom_turbo_standalone.Execute ("baseline");
+   rdjpgcom_moz_standalone.Execute ("baseline");
 
    # 4. Loop through each test configuration file.
    curDir = os.getcwd ()
@@ -58,19 +60,19 @@ def Execute ():
       os.mkdir (testDir)
   
       # Execute the guard test.
-      guard.Execute (name)
+      #guard.Execute (name)
 
       # Execute the djpeg 6b filtered by guard test.
-      djpg_6b_and_guard.Execute (name)
+      #djpg_6b_and_guard.Execute (name)
 
       # Execute the djpeg turbo filtered by guard test.
-      djpg_turbo_and_guard.Execute (name)
+      #djpg_turbo_and_guard.Execute (name)
 
       # Execute the rdjpgcom 6b filtered by guard test.
-      rdjpgcom_6b_and_guard.Execute (name)
+      #djpgcom_6b_and_guard.Execute (name)
 
       # Execute the rdjpgcom turbo filtered by guard test.
-      rdjpgcom_turbo_and_guard.Execute (name)
+      #rdjpgcom_turbo_and_guard.Execute (name)
 
 
 ###############################################################################
