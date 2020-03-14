@@ -10,6 +10,7 @@ import os
 import confgen
 import djpg_6b_standalone
 import djpg_turbo_standalone
+import djpg_moz_standalone
 import rdjpgcom_6b_standalone
 import rdjpgcom_turbo_standalone
 import guard
@@ -42,6 +43,7 @@ def Execute ():
    os.mkdir (baselineDir)
    djpg_6b_standalone.Execute ("baseline");
    djpg_turbo_standalone.Execute ("baseline");
+   djpg_moz_standalone.Execute ("baseline");
    rdjpgcom_6b_standalone.Execute ("baseline")
    rdjpgcom_turbo_standalone.Execute ("baseline");
 

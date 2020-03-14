@@ -69,7 +69,6 @@ def Analyze (srcDir, arg1=None):
    os.system ("firefox -new-tab " + indexFile + " &")
 
    print "---> Finished statically analyzing the " + srcDir + " code ..."
-   print "MWB:  analyze = " + analyze
 
 
 # Executes a step of sequences to produce the output data.

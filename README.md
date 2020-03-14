@@ -15,6 +15,13 @@ Pygments   # sudo pip install Pygments
 lcov       # Ubuntu:  sudo apt-get install lcov
 cppcheck   # Ubuntu:  sudo apt-get install cppcheck
 
+# Stack dependencies
+pkg-config # Ubuntu:  sudo apt-get install pkg-config
+autoconf   # Ubuntu:  sudo apt-get install autoconf
+automake   # Ubuntu:  sudo apt-get install automake
+libtool    # Ubuntu:  sudo apt-get install libtool   
+nasm       # Ununtu:  sudo apt-get install nasm
+
 
 # How to build Guard.
 cd guard

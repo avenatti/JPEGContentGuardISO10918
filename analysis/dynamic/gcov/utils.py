@@ -20,7 +20,7 @@ def GetSampleDir ():
    return (sampleDir)
 
 
-# Gets the diretory for the libjpeg 6b djpeg source code.
+# Gets the directory for the libjpeg 6b djpeg source code.
 def GetDjpeg6bSrcDir ():
    curDir = os.getcwd ()
    os.chdir ("../../../jpeg-6b")
@@ -29,7 +29,7 @@ def GetDjpeg6bSrcDir ():
    return (djpegSrcDir)
 
 
-# Gets the diretory for the libjpeg turbo djpeg source code.
+# Gets the directory for the libjpeg turbo djpeg source code.
 def GetDjpegTurboSrcDir ():
    curDir = os.getcwd ()
    os.chdir ("../../../libjpeg-turbo-2.0.4")
@@ -38,7 +38,16 @@ def GetDjpegTurboSrcDir ():
    return (djpegSrcDir)
 
 
-# Gets the diretory for the guard source code.
+# Gets the directory for the libjpeg turbo mozilla djpeg source code.
+def GetDjpegMozSrcDir ():
+   curDir = os.getcwd ()
+   os.chdir ("../../../mozjpeg-3.3.1")
+   djpegSrcDir = os.getcwd ()
+   os.chdir (curDir)
+   return (djpegSrcDir)
+
+
+# Gets the directory for the guard source code.
 def GetGuardSrcDir ():
    curDir = os.getcwd ()
    os.chdir ("../../../guard")
@@ -47,7 +56,7 @@ def GetGuardSrcDir ():
    return (guardSrcDir)
 
 
-# Gets the diretory for the patches code.
+# Gets the directory for the patches code.
 def GetPatchDir ():
    curDir = os.getcwd ()
    patchDir = os.path.join (curDir, "patches")
@@ -66,6 +75,14 @@ def CopyLibJpeg6bFiles (copyDir):
 # copyDir: Where to copy the files over.
 def CopyLibJpegTurboFiles (copyDir):
    djpegSrcDir = GetDjpegTurboSrcDir ()
+   cmd = ["cp", "-r", djpegSrcDir, copyDir]
+   subprocess.call (cmd)
+
+
+# Copy the libjpeg turbo mozilla files over.
+# copyDir: Where to copy the files over.
+def CopyLibJpegMozFiles (copyDir):
+   djpegSrcDir = GetDjpegMozSrcDir ()
    cmd = ["cp", "-r", djpegSrcDir, copyDir]
    subprocess.call (cmd)
 
@@ -140,6 +157,17 @@ def Build (codeDir):
    os.chdir (curDir)
 
 
+# Builds the source using auto-tools.
+# codeDir:  Where the source code is located.
+def BuildAutoTools (codeDir):
+   curDir = os.getcwd ()
+   os.chdir (codeDir)
+   cmd = ["autoreconf", "-fiv"]
+   subprocess.call (cmd)
+   os.system ("./configure CFLAGS='-O0 -fprofile-arcs -ftest-coverage' LDFLAGS='-lgcov --coverage'")
+   os.chdir (curDir)
+
+
 # Sets up the test environment for a djpeg 6b test.
 # testDir: Where to setup the test.
 # djpegDir: Where to setup the djpeg stuff for the test.
@@ -181,6 +209,27 @@ def DjpegTurboSetup (testDir, djpegDir):
    print "   --- Building libjpeg-trubo source files ... "
    Build (codeDir)
    print "---> Finished setting up test envrionment."
+
+
+# Sets up the test environment for a djpeg turbo mozilla test.
+# testDir: Where to setup the test.
+# djpegDir: Where to setup the djpeg stuff for the test.
+def DjpegMozSetup (testDir, djpegDir):
+
+   print "---> Setting up test envrionment ..."
+   print "   --- Making directories ... "
+   os.mkdir (djpegDir)
+   print "   --- Copying libjpeg-turbo mozilla source files ... "
+   CopyLibJpegMozFiles (djpegDir)
+   codeDir = os.path.join (djpegDir, "mozjpeg-3.3.1")
+   print "   --- Runing auto tools on libjpeg-turbo mozilla source files ... "
+   BuildAutoTools (codeDir)
+   #print "   --- Patching libjpeg-trubo source files ... "
+   #PatchTurbo (codeDir)
+   print "   --- Building libjpeg-trubo mozilla source files ... "
+   Build (codeDir)
+   print "---> Finished setting up test envrionment."
+   #zzz
 
 
 # Sets up the test environment for a rdjpgcom test.
