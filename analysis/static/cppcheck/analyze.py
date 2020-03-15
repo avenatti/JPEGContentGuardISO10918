@@ -16,7 +16,9 @@ def Clean ():
    print "---> Cleaning directory ..."
    cmd = ["rm", "-rf", "analysis_guard", "analysis_jpeg-6b", "analysis_libjpeg-turbo-2.0.4"]
    subprocess.call (cmd)
-   cmd = ["rm", "-rf", "guard", "jpeg-6b", "libjpeg-turbo-2.0.4"]
+   cmd = ["rm", "-rf", "analysis_mozjpeg-3.3.1"]
+   subprocess.call (cmd)
+   cmd = ["rm", "-rf", "guard", "jpeg-6b", "libjpeg-turbo-2.0.4", "mozjpeg-3.3.1"]
    subprocess.call (cmd)
    print "---> Cleaned."
 
@@ -85,7 +87,11 @@ def Execute ():
    CopySourceFiles ("libjpeg-turbo-2.0.4")
    Analyze ("libjpeg-turbo-2.0.4")
 
-   # 4. Copy and anlyze the guard files.
+   # 4. Copy and anlyze the libjpeg turbo mozilla files.
+   CopySourceFiles ("mozjpeg-3.3.1")
+   Analyze ("mozjpeg-3.3.1")
+
+   # 5. Copy and anlyze the guard files.
    CopySourceFiles ("guard")
    Analyze ("guard", "src")
 

@@ -74,7 +74,7 @@ def Execute ():
       djpg_moz_and_guard.Execute (name)
 
       # Execute the rdjpgcom 6b filtered by guard test.
-      djpgcom_6b_and_guard.Execute (name)
+      rdjpgcom_6b_and_guard.Execute (name)
 
       # Execute the rdjpgcom turbo filtered by guard test.
       rdjpgcom_turbo_and_guard.Execute (name)
