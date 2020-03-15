@@ -47,6 +47,15 @@ def GetDjpegMozSrcDir ():
    return (djpegSrcDir)
 
 
+# Gets the directory for the throfdbg source code.
+def GetThrofdbgSrcDir ():
+   curDir = os.getcwd ()
+   os.chdir ("../../../throfdbg")
+   srcDir = os.getcwd ()
+   os.chdir (curDir)
+   return (srcDir)
+
+
 # Gets the directory for the guard source code.
 def GetGuardSrcDir ():
    curDir = os.getcwd ()
@@ -84,6 +93,14 @@ def CopyLibJpegTurboFiles (copyDir):
 def CopyLibJpegMozFiles (copyDir):
    djpegSrcDir = GetDjpegMozSrcDir ()
    cmd = ["cp", "-r", djpegSrcDir, copyDir]
+   subprocess.call (cmd)
+
+
+# Copy the throfdbg files over.
+# copyDir: Where to copy the files over.
+def CopyThrofdbgFiles (copyDir):
+   srcDir = GetThrofdbgSrcDir ()
+   cmd = ["cp", "-r", srcDir, copyDir]
    subprocess.call (cmd)
 
 
@@ -224,12 +241,28 @@ def DjpegMozSetup (testDir, djpegDir):
    codeDir = os.path.join (djpegDir, "mozjpeg-3.3.1")
    print "   --- Runing auto tools on libjpeg-turbo mozilla source files ... "
    BuildAutoTools (codeDir)
-   #print "   --- Patching libjpeg-trubo source files ... "
-   #PatchTurbo (codeDir)
    print "   --- Building libjpeg-trubo mozilla source files ... "
    Build (codeDir)
    print "---> Finished setting up test envrionment."
-   #zzz
+
+
+# Sets up the test environment for a throfdbg test.
+# testDir: Where to setup the test.
+# throfdbgDir: Where to setup the throfdbg stuff for the test.
+def ThrofdbgSetup (testDir, throfdbgDir):
+
+   print "---> Setting up test envrionment ..."
+   print "   --- Making directories ... "
+   os.mkdir (throfdbgDir)
+   print "   --- Copying throfdbg source files ... "
+   CopyThrofdbgFiles (throfdbgDir)
+   print "   --- Patching trofdbg source files ... "
+   patchDir = GetPatchDir ()
+   codeDir = os.path.join (throfdbgDir, "throfdbg")
+   Patch (patchDir, codeDir, "throfdbg.patch.1")
+   print "   --- Building throgdbg source files ... "
+   Build (codeDir)
+   print "---> Finished setting up test envrionment."
 
 
 # Sets up the test environment for a rdjpgcom test.
@@ -322,6 +355,24 @@ def RunRdjpgcomTest (codeDir, imageDir):
       subprocess.call (cmd)
    os.chdir (curDir)
    print "---> Finished rdjpgcom test execution for " + codeDir + "."
+
+
+# Runs a throfdbg test.
+# codeDir: Where the code is located.
+# imageDir: Where the test images are located.
+def RunThrofdbgTest (codeDir, imageDir):
+
+   print "---> Executing the throfdbg test for " + codeDir + "."
+   curDir = os.getcwd ()
+   os.chdir (codeDir)
+   imageDir = imageDir.strip ()
+   files = os.listdir (imageDir)
+   for image in files:
+      fullImagePath = os.path.join (imageDir, image)
+      cmd = ["./jpeg", fullImagePath, "/dev/null"]
+      subprocess.call (cmd)
+   os.chdir (curDir)
+   print "---> Finished throfdbg test execution for " + codeDir + "."
 
 
 # Runs a guard test.

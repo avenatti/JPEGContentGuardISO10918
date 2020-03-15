@@ -1,0 +1,22 @@
+--- Makefile_Settings.gcc.orig	2020-03-14 20:48:47.669046605 -0500
++++ Makefile_Settings.gcc	2020-03-14 20:51:07.999147381 -0500
+@@ -9,8 +9,8 @@
+ DEFINES		= 
+ CC		= $(CXX)
+ MAKEOBJS	= -x c++ -c
+-CFLAGS		= $(BITSIZE) -Wall -W -Wunused -Wpointer-arith -pedantic -Wcast-qual -Wwrite-strings -Wno-long-long -Wredundant-decls -Wnon-virtual-dtor -Woverloaded-virtual -Wsign-promo -fno-exceptions -Wno-char-subscripts $(INCLUDEOPTS) $(DEFINES) $(ADDOPTS) $(CPU) $(TUNE)
+-OPTIMIZER	= -O3 -DDEBUG_LEVEL=0 -DCHECK_LEVEL=0 -funroll-loops -fstrict-aliasing -Wno-redundant-decls -ffast-math #-mfpmath=387 #-maccumulate-outgoing-args -minline-all-stringops -fno-rtti 
++CFLAGS		= $(BITSIZE) -Wall -W -Wunused -Wpointer-arith -pedantic -Wcast-qual -Wwrite-strings -Wno-long-long -Wredundant-decls -Wnon-virtual-dtor -Woverloaded-virtual -Wsign-promo -fno-exceptions -Wno-char-subscripts $(INCLUDEOPTS) $(DEFINES) $(ADDOPTS) $(CPU) $(TUNE) -O0 -fprofile-arcs -ftest-coverage
++OPTIMIZER	= -O0 -DDEBUG_LEVEL=0 -DCHECK_LEVEL=0 -funroll-loops -fstrict-aliasing -Wno-redundant-decls -ffast-math -fprofile-arcs -ftest-coverage #-mfpmath=387 #-maccumulate-outgoing-args -minline-all-stringops -fno-rtti 
+ 		  #-fschedule-insns # These give "register spill" errors.
+ 		  #-fschedule-insns2 #-fomit-frame-pointer breaks exception handling for 3.2
+                   # 387 legacy FPU code is faster than SSE for gcc. Wierd.
+@@ -27,7 +27,7 @@
+ TOASM           = -S -fverbose-asm #-fno-unroll-loops
+ DBLIBS          = #-lefence # does also break exception handling
+ LD		= $(CXX)
+-LDFLAGS		= $(BITSIZE) 
++LDFLAGS		= $(BITSIZE) -lgcov --coverage
+ LDLIBS		= -lc -lm $(EXTRA_LIBS) #gcc_s required for long division/multiplication on 32bit
+ PROFGEN		= $(OPTIMIZER) -fprofile-arcs
+ PROFUSE		= $(OPTIMIZER) -fbranch-probabilities
