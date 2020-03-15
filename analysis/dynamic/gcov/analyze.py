@@ -28,7 +28,9 @@ import rdjpgcom_moz_and_guard
 # Cleans the eviornment (directory) for a fresh run.
 def Clean ():
    print "---> Cleaning directory ..."
-   cmd = ["rm", "-rf", "*.pyc", "baseline", "test1"]
+   cmd = ["rm", "-rf", "*.pyc", "baseline", "test1", "test2", "test3", "test4"]
+   subprocess.call (cmd)
+   cmd = ["rm", "-rf", "test5", "test6", "test7"]
    subprocess.call (cmd)
    print "---> Cleaned."
 
