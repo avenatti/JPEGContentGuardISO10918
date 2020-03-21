@@ -23,6 +23,7 @@ import throfdbg_and_guard
 import rdjpgcom_6b_and_guard
 import rdjpgcom_turbo_and_guard
 import rdjpgcom_moz_and_guard
+import results
 
 
 # Cleans the eviornment (directory) for a fresh run.
@@ -90,6 +91,9 @@ def Execute ():
       # Execute the rdjpgcom turbo mozilla filtered by guard test.
       rdjpgcom_moz_and_guard.Execute (name)
 
+   # Extract the results.
+   results.Execute ()
+
 
 ###############################################################################
 # Script Execution.
@@ -99,7 +103,6 @@ if __name__ == '__main__':
 
    # Execute.
    Execute ()
-
 
 
 

@@ -53,5 +53,6 @@ analysis/dynamic/gcov/guard_analysis
 analysis/dynamic/gcov/test*
 analysis/dynamic/gcov/configs
 analysis/dynamic/gcov/baseline
+analysis/dynamic/gcov/results
 
 
