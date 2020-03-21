@@ -60,7 +60,6 @@ def Execute ():
    curDir = os.getcwd ()
    baselineDir = os.path.join (curDir, "baseline")
    os.mkdir (baselineDir)
-   """
    djpg_6b_standalone.Execute ("baseline");
    djpg_turbo_standalone.Execute ("baseline");
    djpg_moz_standalone.Execute ("baseline");
@@ -69,7 +68,6 @@ def Execute ():
    rdjpgcom_turbo_standalone.Execute ("baseline");
    rdjpgcom_moz_standalone.Execute ("baseline");
    lean_guard.Execute ("baseline");
-   """
 
    # 4. Loop through each test configuration file.
    curDir = os.getcwd ()
