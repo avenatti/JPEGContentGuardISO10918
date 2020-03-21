@@ -65,6 +65,15 @@ def GetGuardSrcDir ():
    return (guardSrcDir)
 
 
+# Gets the directory for the lean guard source code.
+def GetLeanGuardSrcDir ():
+   curDir = os.getcwd ()
+   os.chdir ("../../../lean-guard")
+   guardSrcDir = os.getcwd ()
+   os.chdir (curDir)
+   return (guardSrcDir)
+
+
 # Gets the directory for the patches code.
 def GetPatchDir ():
    curDir = os.getcwd ()
@@ -108,6 +117,14 @@ def CopyThrofdbgFiles (copyDir):
 # copyDir: Where to copy the files over.
 def CopyGuardFiles (copyDir):
    guardSrcDir = GetGuardSrcDir ()
+   cmd = ["cp", "-r", guardSrcDir, copyDir]
+   subprocess.call (cmd)
+
+
+# Copy the lean guard files over.
+# copyDir: Where to copy the files over.
+def CopyLeanGuardFiles (copyDir):
+   guardSrcDir = GetLeanGuardSrcDir ()
    cmd = ["cp", "-r", guardSrcDir, copyDir]
    subprocess.call (cmd)
 
@@ -313,6 +330,31 @@ def GuardSetup (testDir, guardDir):
    print "---> Finished setting up test envrionment."
 
 
+# Sets up the test environment for a lean guard test.
+# testDir: Where to setup the test.
+# guardDir: Where to setup the lean guard stuff for the test.
+def LeanGuardSetup (testDir, guardDir):
+
+   print "---> Setting up test envrionment ..."
+   print "   --- Copying lig source files ... "
+   CopyLeanGuardFiles (guardDir)
+   print "   --- Patching CMakeList.txt file."
+   patchDir = GetPatchDir ()
+   codeDir = guardDir
+   Patch (patchDir, codeDir, "lean-guard.patch.1")
+   print "   --- Executing the cmake setup script."
+   cmd = ["rm", "-rf", guardDir + "/CMakeCache.txt"]
+   subprocess.call (cmd) 
+   Cmake (codeDir)
+   print "   --- Making the lean guard code."
+   Build (codeDir)
+   acceptDir = os.path.join (guardDir, "accept")
+   os.mkdir (acceptDir)
+   dropDir = os.path.join (guardDir, "drop")
+   os.mkdir (dropDir)
+   print "---> Finished setting up test envrionment."
+
+
 # Runs a djpeg test.
 # codeDir: Where the code is located.
 # imageDir: Where the test images are located.
@@ -385,6 +427,24 @@ def RunGuardTest (exe, cfgFile):
    cmd = [exe, "--cfg", cfgFile]
    subprocess.call (cmd)
    print "---> Finished guard test execution for " + exe + "."
+
+
+# Runs a lean guard test.
+# exe: The location of the lean guard executable.
+# image: The location of the image to test.
+# acceptDir:  Where to copy accepted images.
+# dropDir:  Where to copy dropped images.
+def RunLeanGuardTest (exe, image, acceptDir, dropDir):
+
+   # Execute the test.
+   curDir = os.getcwd ()
+   cmd = [exe, image]
+   rc = subprocess.call (cmd)
+   if (rc == 0):
+      cmd = ["cp", image, acceptDir]
+   else:
+      cmd = ["cp", image, dropDir]
+   rc = subprocess.call (cmd)
 
 
 # Generates the analysis information associated with a test run.

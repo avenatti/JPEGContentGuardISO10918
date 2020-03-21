@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 
 
-# This script executes a guard test.
+# This script executes a lean guard test.
 
 
 import os
@@ -17,20 +17,22 @@ def Execute (name):
    sampleDir = utils.GetSampleDir ()
    curDir = os.getcwd ()
    testDir = os.path.join (curDir, name)
-   guardDir = os.path.join (testDir, "guard")
-   executable = os.path.join (guardDir, "build/bin/guard")
-   configFileName = name + ".cfg"
-   configDir = os.path.join (curDir, "configs")
-   configFile = os.path.join (configDir, configFileName)
+   guardDir = os.path.join (testDir, "lean-guard")
+   acceptDir = os.path.join (guardDir, "accept")
+   dropDir = os.path.join (guardDir, "drop")
+   executable = os.path.join (guardDir, "build/bin/lean-guard")
 
    # 2. Setup test envrionment.
-   utils.GuardSetup (testDir, guardDir)
+   utils.LeanGuardSetup (testDir, guardDir)
 
-   # 3. Execute the test.
-   utils.RunGuardTest (executable, configFile)
+   # 3. Execute the test for each image.
+   images = os.listdir (sampleDir)
+   for image in images:
+      fullPath = os.path.join (sampleDir, image)
+      utils.RunLeanGuardTest (executable, fullPath, acceptDir, dropDir)
 
    # 4. Generate the analysis information.
-   utils.GenerateAnalysisData (guardDir, name + "-guard")
+   utils.GenerateAnalysisData (guardDir, name + "-lean-guard-")
 
    # 5. Display the analysis information.
    utils.DisplayAnalysisData (guardDir)

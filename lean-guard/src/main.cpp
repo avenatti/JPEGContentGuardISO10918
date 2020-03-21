@@ -11,10 +11,7 @@
 /// History: 
 ///    M. Benson	3/21/2020 	Initial version.
 
-
-#include <iostream>
 #include <fstream>
-#include <string>
 #include <experimental/filesystem>
 
 
@@ -152,13 +149,11 @@ int SkipBytes (std::ifstream& stream, int skipBytes)
 
 
 /// Entry point for the guard application.
-/// Usage:  lean-guard  # A single image path/name is accepted at runtime 
-///                     # through standard input (not passed in as argv).
+/// Usage:  lean-guard  image_path_filename
 /// @return 0 upon accept, 1 upon drop.
 int main (int argc, char* argv[])
 {
    int result = DROP;
-   string image;
    ifstream infile;
    int fileSize;
    int bytesRead = 0;
@@ -167,68 +162,69 @@ int main (int argc, char* argv[])
    unsigned char c2;
 
 
-   // Wait for an image name to be provided through standard input.
-   cin >> image;
-
-   // Attempt to open the image file.
-   try 
+   // Ensure proper calling arguments.
+   if (argc == 2)
    {
-      // Open the image file.
-      infile.open (image, ios::binary | ios::in);
-
-      // Protect against any opening errors.   
-      if (infile.fail () == false)
+      // Attempt to open the image file.
+      try 
       {
-         // Get the file size.
-         fileSize = fs::file_size (image);
+         // Open the image file.
+         infile.open (argv[1], ios::binary | ios::in);
 
-         // Read the first marker.
-         bytesRead += ProcessFirstMarker (infile);
-
-         // Read the rest of the file.
-         while ((bytesRead < fileSize) && (accepted == false))
+         // Protect against any opening errors.   
+         if (infile.fail () == false)
          {
-            // Get next marker and length.
-            bytesRead += GetNextMarker (infile, c2, len);
+            // Get the file size.
+            fileSize = fs::file_size (argv[1]);
 
-            // Perform maker specific special checks.
-            switch (c2)
+            // Read the first marker.
+            bytesRead += ProcessFirstMarker (infile);
+
+            // Read the rest of the file.
+            while ((bytesRead < fileSize) && (accepted == false))
             {
-               case M_SOS:
-                  result = ACCEPT;
-                  accepted = true;
-                  break;
+               // Get next marker and length.
+               bytesRead += GetNextMarker (infile, c2, len);
 
-               case M_SOF2:
-               case M_SOF3:
-               case M_SOF6:
-               case M_SOF7:
-               case M_SOF9:
-               case M_SOF10:
-               case M_SOF11:
-               case M_SOF13:
-               case M_SOF14:
-               case M_SOF15:
-               case M_DAC:
-                  throw "Dropped";
-                  break;
+               // Perform maker specific special checks.
+               switch (c2)
+               {
+                  case M_SOS:
+                     result = ACCEPT;
+                     accepted = true;
+                     break;
 
-               case M_SOF0:
-               case M_SOF1:
-               case M_SOF5:
-               case M_DHT:
-               default:
-                  break;
+                  case M_SOF2:
+                  case M_SOF3:
+                  case M_SOF6:
+                  case M_SOF7:
+                  case M_SOF9:
+                  case M_SOF10:
+                  case M_SOF11:
+                  case M_SOF13:
+                  case M_SOF14:
+                  case M_SOF15:
+                  case M_DAC:
+                     throw "Dropped";
+                     break;
+
+                  case M_SOF0:
+                  case M_SOF1:
+                  case M_SOF5:
+                  case M_DHT:
+                  default:
+                     break;
+               }
+
+               // Skip the specified number of bytes.
+               bytesRead += SkipBytes (infile, (len - 2));
             }
-
-            // Skip the specified number of bytes.
-            bytesRead += SkipBytes (infile, (len - 2));
          }
       }
-   }
-   catch (...)
-   {
-      result = DROP;
+      catch (...)
+      {
+         result = DROP;
+      }
    }
 
    // Done.
