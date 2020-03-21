@@ -8,6 +8,10 @@
 import subprocess
 import os
 import confgen
+import guard
+import lean_guard
+import results
+
 import djpg_6b_standalone
 import djpg_turbo_standalone
 import djpg_moz_standalone
@@ -15,7 +19,7 @@ import throfdbg_standalone
 import rdjpgcom_6b_standalone
 import rdjpgcom_turbo_standalone
 import rdjpgcom_moz_standalone
-import guard
+
 import djpg_6b_and_guard
 import djpg_turbo_and_guard
 import djpg_moz_and_guard
@@ -23,7 +27,14 @@ import throfdbg_and_guard
 import rdjpgcom_6b_and_guard
 import rdjpgcom_turbo_and_guard
 import rdjpgcom_moz_and_guard
-import results
+
+import djpg_6b_and_lean_guard
+import djpg_turbo_and_lean_guard
+import djpg_moz_and_lean_guard
+import throfdbg_and_lean_guard
+import rdjpgcom_6b_and_lean_guard
+import rdjpgcom_turbo_and_lean_guard
+import rdjpgcom_moz_and_lean_guard
 
 
 # Cleans the eviornment (directory) for a fresh run.
@@ -31,7 +42,7 @@ def Clean ():
    print "---> Cleaning directory ..."
    cmd = ["rm", "-rf", "*.pyc", "baseline", "test1", "test2", "test3", "test4"]
    subprocess.call (cmd)
-   cmd = ["rm", "-rf", "test5", "test6", "test7"]
+   cmd = ["rm", "-rf", "test5", "test6", "test7", "test-lean-guard"]
    subprocess.call (cmd)
    print "---> Cleaned."
 
@@ -49,6 +60,7 @@ def Execute ():
    curDir = os.getcwd ()
    baselineDir = os.path.join (curDir, "baseline")
    os.mkdir (baselineDir)
+   """
    djpg_6b_standalone.Execute ("baseline");
    djpg_turbo_standalone.Execute ("baseline");
    djpg_moz_standalone.Execute ("baseline");
@@ -56,6 +68,8 @@ def Execute ():
    rdjpgcom_6b_standalone.Execute ("baseline")
    rdjpgcom_turbo_standalone.Execute ("baseline");
    rdjpgcom_moz_standalone.Execute ("baseline");
+   lean_guard.Execute ("baseline");
+   """
 
    # 4. Loop through each test configuration file.
    curDir = os.getcwd ()
@@ -90,6 +104,20 @@ def Execute ():
 
       # Execute the rdjpgcom turbo mozilla filtered by guard test.
       rdjpgcom_moz_and_guard.Execute (name)
+
+   # 5. Execute the lean guard test for each stack.
+   name = "test-lean-guard"
+   testDir = os.path.join (curDir, name)
+   os.mkdir (testDir)
+
+   lean_guard.Execute (name)
+   djpg_6b_and_lean_guard.Execute (name)
+   djpg_turbo_and_lean_guard.Execute (name)
+   djpg_moz_and_lean_guard.Execute (name)
+   throfdbg_and_lean_guard.Execute (name)
+   rdjpgcom_6b_and_lean_guard.Execute (name)
+   rdjpgcom_turbo_and_lean_guard.Execute (name)
+   rdjpgcom_moz_and_lean_guard.Execute (name)
 
    # Extract the results.
    results.Execute ()

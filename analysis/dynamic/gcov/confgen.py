@@ -88,13 +88,13 @@ def Generate ():
    Prepare ()
 
    # 3. Create the individual tests.
-   CreateTest ("test1", "sdm", "he", "ae")
+   #CreateTest ("test1", "sdm", "he", "ae")
    CreateTest ("test2", "sdm", "he")
-   CreateTest ("test3", "sdm", "ae")
-   CreateTest ("test4", "pdm", "he", "ae")
-   CreateTest ("test5", "pdm", "he")
-   CreateTest ("test6", "pdm", "ae")
-   CreateTest ("test7", "lm", "he")
+   #CreateTest ("test3", "sdm", "ae")
+   #CreateTest ("test4", "pdm", "he", "ae")
+   #CreateTest ("test5", "pdm", "he")
+   #CreateTest ("test6", "pdm", "ae")
+   #CreateTest ("test7", "lm", "he")
 
 
 ###############################################################################

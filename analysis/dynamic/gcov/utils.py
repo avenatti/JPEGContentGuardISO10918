@@ -510,5 +510,12 @@ def GetAcceptDir (configFile):
    return (result)
 
 
+# Gets the acceptance directory for the lean guard.
+def GetLeanAcceptDir ():
+   curDir = os.getcwd ()
+   result = os.path.join (curDir, "test-lean-guard/lean-guard/accept")
+   return (result)
+
+
 
 
